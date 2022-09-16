@@ -113,4 +113,14 @@ public class BoothDataAccessTests
         await runner(e => e.BoothNumber.Equals(-1), null);
         await runner(e => e.BoothNumber.Equals(3), mockData[2]);
     }
+
+    [DataTestMethod]
+    [TestCategory(TestConstants.UnitTest)]
+    [DataRow(false, "129d6427-adf2-4746-a33f-cfc60a51e4e2")]
+    [DataRow(true, "029d6427-adf2-4746-a33f-cfc60a51e4e2")]
+    public async Task Exists(bool expected, string id)
+    {
+        bool exists = await sut.Exists(new Guid(id));
+        Assert.AreEqual(expected, exists);
+    }
 }
