@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Papp.Persistence.DataAccess;
 
+/// <inheritdoc/>
 public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
 {
     private readonly PappDbContext context;
@@ -14,12 +15,14 @@ public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
         this.dbSet = context.Set<T>();
     }
 
+    /// <inheritdoc/>
     public async Task AddAsync(T entity)
     {
         await dbSet.AddAsync(entity);
         await this.context.SaveChangesAsync();
     }
 
+    /// <inheritdoc/>
     public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool tracked = false, string? includeProperties = null)
     {
         IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
@@ -38,6 +41,7 @@ public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
         return await query.ToListAsync();
     }
 
+    /// <inheritdoc/>
     public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, bool tracked = false, string? includeProperties = null)
     {
         IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
