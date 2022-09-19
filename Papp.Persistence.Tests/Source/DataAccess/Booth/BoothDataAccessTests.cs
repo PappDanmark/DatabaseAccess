@@ -56,7 +56,6 @@ public class BoothDataAccessTests
 
         // Verify
         this.mockBoothDbSet.Verify(c => c.AddAsync(It.IsAny<Booth>(), default), Times.Once);
-        this.mockContext.Verify(c => c.SaveChangesAsync(default), Times.Once);
     }
 
     [TestMethod]
