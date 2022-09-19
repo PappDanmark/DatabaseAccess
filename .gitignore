@@ -1,0 +1,6 @@
+# Editor specific
+.vscode
+
+# Build output
+[Bb]in
+[Oo]bj
