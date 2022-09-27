@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-
 namespace Papp.Persistence.DataAccess;
 
 /// <summary>
@@ -21,7 +19,7 @@ public interface IGenericDataAccess<T> where T : class
     /// <param name="tracked">Whether or not the returned entities are tracked.</param>
     /// <param name="includeProperties">A comma separated list containing case-sensitive names of any properties that should be included with every entity.</param>
     /// <returns>A list of enities of type T, that match the given filter, if no entities are found returns empty list.</returns>
-    Task<IList<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool tracked = false, string? includeProperties = null);
+    Task<IList<T>> GetAllAsync(IBaseSpecification<T>? specification = null);
 
     /// <summary>
     /// Retrieves the first occurunce of an entity type T from the DB.
@@ -31,7 +29,5 @@ public interface IGenericDataAccess<T> where T : class
     /// <param name="tracked">Whether or not the returned entity is tracked.</param>
     /// <param name="includeProperties">A comma separated list containing case-sensitive names of any properties that should be included with the entity.</param>
     /// <returns>An entity of type T, that matches the given filter, if none mathches returns null.</returns>
-    Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, bool tracked = false, string? includeProperties = null);
-
-    IEnumerable<T> Find(ISpecification<T> specification);
+    Task<T?> GetFirstOrDefaultAsync(IBaseSpecification<T> specification);
 }

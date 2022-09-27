@@ -9,12 +9,12 @@ public abstract class BaseSpecification<TEntity> : IBaseSpecification<TEntity>
     public List<string> IncludeStrings { get; }
     public bool Tracked { get; }
 
-    public BaseSpecification(Expression<Func<TEntity, bool>> criteria)
+    public BaseSpecification(Expression<Func<TEntity, bool>> criteria, bool tracked = false)
     {
         this.Criteria = criteria;
         this.IncludeExpressions = new();
         this.IncludeStrings = new();
-        this.Tracked = false;
+        this.Tracked = tracked;
     }
 
     protected virtual void AddInclude(Expression<Func<TEntity, object>> expression)

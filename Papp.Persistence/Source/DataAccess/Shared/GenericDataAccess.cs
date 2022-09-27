@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Papp.Persistence.DataAccess;
@@ -21,43 +20,15 @@ public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
         await dbSet.AddAsync(entity);
     }
 
-    public IEnumerable<T> Find(ISpecification<T> specification)
+    /// <inheritdoc/>
+    public async Task<IList<T>> GetAllAsync(IBaseSpecification<T>? specification = null)
     {
-        return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification);
+        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification).ToListAsync();
     }
 
     /// <inheritdoc/>
-    public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool tracked = false, string? includeProperties = null)
+    public async Task<T?> GetFirstOrDefaultAsync(IBaseSpecification<T> specification)
     {
-        IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
-
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
-        if (includeProperties != null)
-        {
-            foreach (var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProp);
-            }
-        }
-        return await query.ToListAsync();
-    }
-
-    /// <inheritdoc/>
-    public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, bool tracked = false, string? includeProperties = null)
-    {
-        IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
-
-        query = query.Where(filter);
-        if (includeProperties != null)
-        {
-            foreach (var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProp);
-            }
-        }
-        return await query.FirstOrDefaultAsync();
+        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification).FirstOrDefaultAsync();
     }
 }
