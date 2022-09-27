@@ -21,6 +21,11 @@ public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
         await dbSet.AddAsync(entity);
     }
 
+    public IEnumerable<T> Find(ISpecification<T> specification)
+    {
+        return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification);
+    }
+
     /// <inheritdoc/>
     public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool tracked = false, string? includeProperties = null)
     {

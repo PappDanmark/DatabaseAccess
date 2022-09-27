@@ -32,4 +32,6 @@ public interface IGenericDataAccess<T> where T : class
     /// <param name="includeProperties">A comma separated list containing case-sensitive names of any properties that should be included with the entity.</param>
     /// <returns>An entity of type T, that matches the given filter, if none mathches returns null.</returns>
     Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, bool tracked = false, string? includeProperties = null);
+
+    IEnumerable<T> Find(ISpecification<T> specification);
 }
