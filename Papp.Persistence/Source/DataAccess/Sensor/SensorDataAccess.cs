@@ -15,7 +15,7 @@ public class SensorDataAccess : GenericDataAccess<Sensor>, ISensorDataAccess
     /// <inheritdoc/>
     public async Task<bool> Exists(string id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
+        var entity = await base.GetFirstOrDefaultAsync(new Specification<Sensor>(e => e.Id.Equals(id)));
         return entity != null;
     }
 }
