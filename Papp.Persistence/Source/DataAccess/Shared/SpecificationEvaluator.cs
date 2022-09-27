@@ -4,15 +4,17 @@ namespace Papp.Persistence.DataAccess;
 
 public class SpecificationEvaluator<TEntity> where TEntity : class
 {
-    public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+    public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, IBaseSpecification<TEntity>? specification)
     {
-        var query = inputQuery;
-
-        if (specification.Criteria != null)
+        if (specification == null)
         {
-            query = query.Where(specification.Criteria);
+            return inputQuery;
         }
 
+        var query = specification.Tracked ? inputQuery : inputQuery.AsNoTracking();
+       
+        query = query.Where(specification.Criteria);
+    
         query = specification.IncludeExpressions.Aggregate(query, (current, include) => current.Include(include));
 
         query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
