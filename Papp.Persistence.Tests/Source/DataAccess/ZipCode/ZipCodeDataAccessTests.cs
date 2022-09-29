@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class ZipCodeDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ZipCode, bool>>?, IList<ZipCode>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ZipCode>?, IList<ZipCode>, Task> runner = async (filter, expected) =>
         {
             IList<ZipCode> ZipCodeList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class ZipCodeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.CountryId.Equals(2), mockData.Where(e => e.CountryId.Equals(2)).ToList());
-        await runner(e => e.Code.Equals("4321"), new List<ZipCode> { mockData[2] });
-        await runner(e => e.Code.Equals(""), new List<ZipCode>());
+        await runner(new Specification<ZipCode>(e => e.CountryId.Equals(2)), mockData.Where(e => e.CountryId.Equals(2)).ToList());
+        await runner(new Specification<ZipCode>(e => e.Code.Equals("4321")), new List<ZipCode> { mockData[2] });
+        await runner(new Specification<ZipCode>(e => e.Code.Equals("")), new List<ZipCode>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class ZipCodeDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ZipCode, bool>>, ZipCode?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ZipCode>, ZipCode?, Task> runner = async (filter, expected) =>
         {
             ZipCode? ZipCode = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,13 +103,13 @@ public class ZipCodeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-2), null);
-        await runner(e => e.Id.Equals(-1), null);
-        await runner(e => e.Id.Equals(0), null);
-        await runner(e => e.Id.Equals(2), mockData[1]);
-        await runner(e => e.CountryId.Equals(-1), null);
-        await runner(e => e.CountryId.Equals(3), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<ZipCode>(e => e.Id.Equals(-2)), null);
+        await runner(new Specification<ZipCode>(e => e.Id.Equals(-1)), null);
+        await runner(new Specification<ZipCode>(e => e.Id.Equals(0)), null);
+        await runner(new Specification<ZipCode>(e => e.Id.Equals(2)), mockData[1]);
+        await runner(new Specification<ZipCode>(e => e.CountryId.Equals(-1)), null);
+        await runner(new Specification<ZipCode>(e => e.CountryId.Equals(3)), mockData[2]);
     }
 
     [DataTestMethod]

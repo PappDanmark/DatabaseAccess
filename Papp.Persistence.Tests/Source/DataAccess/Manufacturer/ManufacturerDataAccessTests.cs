@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -60,7 +59,7 @@ public class ManufacturerDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Manufacturer, bool>>?, IList<Manufacturer>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Manufacturer>?, IList<Manufacturer>, Task> runner = async (filter, expected) =>
         {
             IList<Manufacturer> ManufacturerList = await sut.GetAllAsync(filter);
 
@@ -74,11 +73,11 @@ public class ManufacturerDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Name.Equals("m1"), mockData.Where(e => e.Name.Equals("m1")).ToList());
-        await runner(e => e.Name.Equals("m3"), new List<Manufacturer> { mockData[2] });
-        await runner(e => e.Name.Equals("  "), new List<Manufacturer>());
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("m1")), mockData.Where(e => e.Name.Equals("m1")).ToList());
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("m3")), new List<Manufacturer> { mockData[2] });
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("  ")), new List<Manufacturer>());
     }
 
     [TestMethod]
@@ -86,7 +85,7 @@ public class ManufacturerDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Manufacturer, bool>>, Manufacturer?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Manufacturer>, Manufacturer?, Task> runner = async (filter, expected) =>
         {
             Manufacturer? Manufacturer = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -101,12 +100,12 @@ public class ManufacturerDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-1), null);
-        await runner(e => e.Id.Equals(2), mockData[1]);
-        await runner(e => e.Name.Equals(""), null);
-        await runner(e => e.Name.Equals("   "), null);
-        await runner(e => e.Name.Equals("m3"), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<Manufacturer>(e => e.Id.Equals(-1)), null);
+        await runner(new Specification<Manufacturer>(e => e.Id.Equals(2)), mockData[1]);
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("")), null);
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("   ")), null);
+        await runner(new Specification<Manufacturer>(e => e.Name.Equals("m3")), mockData[2]);
     }
 
     [DataTestMethod]

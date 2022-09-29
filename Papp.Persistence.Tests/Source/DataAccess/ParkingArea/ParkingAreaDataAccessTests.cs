@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -66,7 +65,7 @@ public class ParkingAreaDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ParkingArea, bool>>?, IList<ParkingArea>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ParkingArea>?, IList<ParkingArea>, Task> runner = async (filter, expected) =>
         {
             IList<ParkingArea> ParkingAreaList = await sut.GetAllAsync(filter);
 
@@ -80,11 +79,11 @@ public class ParkingAreaDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.ZipCodeId.Equals(8700), mockData.Where(e => e.ZipCodeId.Equals(8700)).ToList());
-        await runner(e => e.Id.Equals(1), new List<ParkingArea> { mockData[0] });
-        await runner(e => e.Id.Equals(-3), new List<ParkingArea>());
+        await runner(new Specification<ParkingArea>(e => e.ZipCodeId.Equals(8700)), mockData.Where(e => e.ZipCodeId.Equals(8700)).ToList());
+        await runner(new Specification<ParkingArea>(e => e.Id.Equals(1)), new List<ParkingArea> { mockData[0] });
+        await runner(new Specification<ParkingArea>(e => e.Id.Equals(-3)), new List<ParkingArea>());
     }
 
     [TestMethod]
@@ -92,7 +91,7 @@ public class ParkingAreaDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ParkingArea, bool>>, ParkingArea?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ParkingArea>, ParkingArea?, Task> runner = async (filter, expected) =>
         {
             ParkingArea? ParkingArea = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -107,11 +106,11 @@ public class ParkingAreaDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-3), null);
-        await runner(e => e.Id.Equals(2), mockData[1]);
-        await runner(e => e.PappId.Equals("abcd"), null);
-        await runner(e => e.PappId.Equals("pappId#3"), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<ParkingArea>(e => e.Id.Equals(-3)), null);
+        await runner(new Specification<ParkingArea>(e => e.Id.Equals(2)), mockData[1]);
+        await runner(new Specification<ParkingArea>(e => e.PappId.Equals("abcd")), null);
+        await runner(new Specification<ParkingArea>(e => e.PappId.Equals("pappId#3")), mockData[2]);
     }
 
     [DataTestMethod]

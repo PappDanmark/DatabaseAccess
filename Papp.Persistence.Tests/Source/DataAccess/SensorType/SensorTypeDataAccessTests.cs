@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class SensorTypeDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorType, bool>>?, IList<SensorType>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorType>?, IList<SensorType>, Task> runner = async (filter, expected) =>
         {
             IList<SensorType> SensorTypeList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class SensorTypeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Model.Equals("m2"), mockData.Where(e => e.Model.Equals("m2")).ToList());
-        await runner(e => e.Manufacturer.Equals(1), new List<SensorType> { mockData[0] });
-        await runner(e => e.Manufacturer.Equals(-3), new List<SensorType>());
+        await runner(new Specification<SensorType>(e => e.Model.Equals("m2")), mockData.Where(e => e.Model.Equals("m2")).ToList());
+        await runner(new Specification<SensorType>(e => e.Manufacturer.Equals(1)), new List<SensorType> { mockData[0] });
+        await runner(new Specification<SensorType>(e => e.Manufacturer.Equals(-3)), new List<SensorType>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class SensorTypeDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorType, bool>>, SensorType?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorType>, SensorType?, Task> runner = async (filter, expected) =>
         {
             SensorType? SensorType = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,13 +103,13 @@ public class SensorTypeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.ToString().Equals(""), null);
-        await runner(e => e.Id.ToString().Equals("   "), null);
-        await runner(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2"), null);
-        await runner(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2"), mockData[1]);
-        await runner(e => e.Manufacturer.Equals(-1), null);
-        await runner(e => e.Manufacturer.Equals(3), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<SensorType>(e => e.Id.ToString().Equals("")), null);
+        await runner(new Specification<SensorType>(e => e.Id.ToString().Equals("   ")), null);
+        await runner(new Specification<SensorType>(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2")), null);
+        await runner(new Specification<SensorType>(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2")), mockData[1]);
+        await runner(new Specification<SensorType>(e => e.Manufacturer.Equals(-1)), null);
+        await runner(new Specification<SensorType>(e => e.Manufacturer.Equals(3)), mockData[2]);
     }
 
     [DataTestMethod]
