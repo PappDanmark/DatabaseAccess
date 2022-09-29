@@ -15,9 +15,7 @@ public interface IGenericDataAccess<T> where T : class
     /// <summary>
     /// Retrieves a subset or all entities of type T from the DB.
     /// </summary>
-    /// <param name="filter">A LINQ expression to be used to filter which entities will be returned.</param>
-    /// <param name="tracked">Whether or not the returned entities are tracked.</param>
-    /// <param name="includeProperties">A comma separated list containing case-sensitive names of any properties that should be included with every entity.</param>
+    /// <param name="specification">A specification class containg any filters for which kind of entities will be returned, or null for all the entities.</param>
     /// <returns>A list of enities of type T, that match the given filter, if no entities are found returns empty list.</returns>
     Task<IList<T>> GetAllAsync(IBaseSpecification<T>? specification = null);
 
@@ -25,9 +23,7 @@ public interface IGenericDataAccess<T> where T : class
     /// Retrieves the first occurunce of an entity type T from the DB.
     /// Can be used as a universal getter e.g. GetById, GetByMunicipality etc.
     /// </summary>
-    /// <param name="filter">A LINQ expression to be used to filter which entity will be returned.</param>
-    /// <param name="tracked">Whether or not the returned entity is tracked.</param>
-    /// <param name="includeProperties">A comma separated list containing case-sensitive names of any properties that should be included with the entity.</param>
+    /// <param name="specification">A specification class containg any filters for which kind of entities will be returned.</param>
     /// <returns>An entity of type T, that matches the given filter, if none mathches returns null.</returns>
     Task<T?> GetFirstOrDefaultAsync(IBaseSpecification<T> specification);
 }
