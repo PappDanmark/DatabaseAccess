@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class CountryDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Country, bool>>?, IList<Country>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Country>?, IList<Country>, Task> runner = async (filter, expected) =>
         {
             IList<Country> CountryList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class CountryDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Population.Equals(100), mockData.Where(e => e.Population.Equals(100)).ToList());
-        await runner(e => e.Iso3166Numeric.Equals(1), new List<Country> { mockData[0] });
-        await runner(e => e.Iso3166Numeric.Equals(-3), new List<Country>());
+        await runner(new Specification<Country>(e => e.Population.Equals(100)), mockData.Where(e => e.Population.Equals(100)).ToList());
+        await runner(new Specification<Country>(e => e.Iso3166Numeric.Equals(1)), new List<Country> { mockData[0] });
+        await runner(new Specification<Country>(e => e.Iso3166Numeric.Equals(-3)), new List<Country>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class CountryDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Country, bool>>, Country?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Country>, Country?, Task> runner = async (filter, expected) =>
         {
             Country? Country = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,12 +103,12 @@ public class CountryDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Iso3166Numeric.Equals(-2), null);
-        await runner(e => e.Iso3166Numeric.Equals(1), mockData[0]);
-        await runner(e => e.CommonName.Equals(""), null);
-        await runner(e => e.CommonName.Equals("  "), null);
-        await runner(e => e.CommonName.Equals("Country#3"), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<Country>(e => e.Iso3166Numeric.Equals(-2)), null);
+        await runner(new Specification<Country>(e => e.Iso3166Numeric.Equals(1)), mockData[0]);
+        await runner(new Specification<Country>(e => e.CommonName.Equals("")), null);
+        await runner(new Specification<Country>(e => e.CommonName.Equals("  ")), null);
+        await runner(new Specification<Country>(e => e.CommonName.Equals("Country#3")), mockData[2]);
     }
 
     [DataTestMethod]

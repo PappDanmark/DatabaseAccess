@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class SensorBatteryUpdateDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorBatteryUpdate, bool>>?, IList<SensorBatteryUpdate>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorBatteryUpdate>?, IList<SensorBatteryUpdate>, Task> runner = async (filter, expected) =>
         {
             IList<SensorBatteryUpdate> SensorBatteryUpdateList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class SensorBatteryUpdateDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Percent.Equals(10.25F), mockData.Where(e => e.Percent.Equals(10.25F)).ToList());
-        await runner(e => e.SensorId.Equals("sbu3"), new List<SensorBatteryUpdate> { mockData[2] });
-        await runner(e => e.SensorId.Equals(" "), new List<SensorBatteryUpdate>());
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Percent.Equals(10.25F)), mockData.Where(e => e.Percent.Equals(10.25F)).ToList());
+        await runner(new Specification<SensorBatteryUpdate>(e => e.SensorId.Equals("sbu3")), new List<SensorBatteryUpdate> { mockData[2] });
+        await runner(new Specification<SensorBatteryUpdate>(e => e.SensorId.Equals(" ")), new List<SensorBatteryUpdate>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class SensorBatteryUpdateDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorBatteryUpdate, bool>>, SensorBatteryUpdate?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorBatteryUpdate>, SensorBatteryUpdate?, Task> runner = async (filter, expected) =>
         {
             SensorBatteryUpdate? SensorBatteryUpdate = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,12 +103,12 @@ public class SensorBatteryUpdateDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.ToString().Equals(""), null);
-        await runner(e => e.Id.ToString().Equals("   "), null);
-        await runner(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2"), null);
-        await runner(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2"), mockData[1]);
-        await runner(e => e.SensorId.Equals("  "), null);
-        await runner(e => e.Percent.Equals(8.50F), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Id.ToString().Equals("")), null);
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Id.ToString().Equals("   ")), null);
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2")), null);
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2")), mockData[1]);
+        await runner(new Specification<SensorBatteryUpdate>(e => e.SensorId.Equals("  ")), null);
+        await runner(new Specification<SensorBatteryUpdate>(e => e.Percent.Equals(8.50F)), mockData[2]);
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -66,7 +65,7 @@ public class ImageDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Image, bool>>?, IList<Image>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Image>?, IList<Image>, Task> runner = async (filter, expected) =>
         {
             IList<Image> ImageList = await sut.GetAllAsync(filter);
 
@@ -80,11 +79,11 @@ public class ImageDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.MimeType.Equals("jpeg"), mockData.Where(e => e.MimeType.Equals("jpeg")).ToList());
-        await runner(e => e.Name.Equals("Image2"), new List<Image> { mockData[1] });
-        await runner(e => e.Name.Equals("  "), new List<Image>());
+        await runner(new Specification<Image>(e => e.MimeType.Equals("jpeg")), mockData.Where(e => e.MimeType.Equals("jpeg")).ToList());
+        await runner(new Specification<Image>(e => e.Name.Equals("Image2")), new List<Image> { mockData[1] });
+        await runner(new Specification<Image>(e => e.Name.Equals("  ")), new List<Image>());
     }
 
     [TestMethod]
@@ -92,7 +91,7 @@ public class ImageDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Image, bool>>, Image?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Image>, Image?, Task> runner = async (filter, expected) =>
         {
             Image? Image = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -107,13 +106,13 @@ public class ImageDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-2), null);
-        await runner(e => e.Id.Equals(0), null);
-        await runner(e => e.Id.Equals(145), null);
-        await runner(e => e.Id.Equals(2), mockData[1]);
-        await runner(e => e.CompressionType.Equals("abcd"), null);
-        await runner(e => e.CompressionType.Equals("gzip"), mockData[0]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<Image>(e => e.Id.Equals(-2)), null);
+        await runner(new Specification<Image>(e => e.Id.Equals(0)), null);
+        await runner(new Specification<Image>(e => e.Id.Equals(145)), null);
+        await runner(new Specification<Image>(e => e.Id.Equals(2)), mockData[1]);
+        await runner(new Specification<Image>(e => e.CompressionType.Equals("abcd")), null);
+        await runner(new Specification<Image>(e => e.CompressionType.Equals("gzip")), mockData[0]);
     }
 
     [DataTestMethod]
