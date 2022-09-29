@@ -23,12 +23,12 @@ public class GenericDataAccess<T> : IGenericDataAccess<T> where T : class
     /// <inheritdoc/>
     public async Task<IList<T>> GetAllAsync(IBaseSpecification<T>? specification = null)
     {
-        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification).ToListAsync();
+        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>(), specification).ToListAsync();
     }
 
     /// <inheritdoc/>
     public async Task<T?> GetFirstOrDefaultAsync(IBaseSpecification<T> specification)
     {
-        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsNoTracking(), specification).FirstOrDefaultAsync();
+        return await SpecificationEvaluator<T>.GetQuery(context.Set<T>(), specification).FirstOrDefaultAsync();
     }
 }
