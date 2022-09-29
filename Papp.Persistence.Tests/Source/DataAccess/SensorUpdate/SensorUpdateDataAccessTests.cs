@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class SensorUpdateDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorUpdate, bool>>?, IList<SensorUpdate>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorUpdate>?, IList<SensorUpdate>, Task> runner = async (filter, expected) =>
         {
             IList<SensorUpdate> SensorUpdateList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class SensorUpdateDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Occupied.Equals(true), mockData.Where(e => e.Occupied.Equals(true)).ToList());
-        await runner(e => e.SensorId.Equals("sensor#1"), new List<SensorUpdate> { mockData[0] });
-        await runner(e => e.SensorId.Equals(""), new List<SensorUpdate>());
+        await runner(new Specification<SensorUpdate>(e => e.Occupied.Equals(true)), mockData.Where(e => e.Occupied.Equals(true)).ToList());
+        await runner(new Specification<SensorUpdate>(e => e.SensorId.Equals("sensor#1")), new List<SensorUpdate> { mockData[0] });
+        await runner(new Specification<SensorUpdate>(e => e.SensorId.Equals("")), new List<SensorUpdate>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class SensorUpdateDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<SensorUpdate, bool>>, SensorUpdate?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<SensorUpdate>, SensorUpdate?, Task> runner = async (filter, expected) =>
         {
             SensorUpdate? SensorUpdate = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,12 +103,12 @@ public class SensorUpdateDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.ToString().Equals(""), null);
-        await runner(e => e.Id.ToString().Equals("   "), null);
-        await runner(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2"), null);
-        await runner(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2"), mockData[1]);
-        await runner(e => e.SensorId.Equals("   "), null);
-        await runner(e => e.SensorId.Equals("sensor#3"), mockData[2]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<SensorUpdate>(e => e.Id.ToString().Equals("")), null);
+        await runner(new Specification<SensorUpdate>(e => e.Id.ToString().Equals("   ")), null);
+        await runner(new Specification<SensorUpdate>(e => e.Id.ToString().Equals("129d6427-adf2-4746-a33f-cfc60a51e4e2")), null);
+        await runner(new Specification<SensorUpdate>(e => e.Id.ToString().Equals("029d6427-adf2-4746-a33f-cfc60a51e4e2")), mockData[1]);
+        await runner(new Specification<SensorUpdate>(e => e.SensorId.Equals("   ")), null);
+        await runner(new Specification<SensorUpdate>(e => e.SensorId.Equals("sensor#3")), mockData[2]);
     }
 }

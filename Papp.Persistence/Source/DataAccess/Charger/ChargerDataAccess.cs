@@ -15,7 +15,7 @@ public class ChargerDataAccess : GenericDataAccess<Charger>, IChargerDataAccess
     /// <inheritdoc/>
     public async Task<bool> Exists(Guid id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
+        var entity = await base.GetFirstOrDefaultAsync(new Specification<Charger>(e => e.Id.Equals(id)));
         return entity != null;
     }
 }

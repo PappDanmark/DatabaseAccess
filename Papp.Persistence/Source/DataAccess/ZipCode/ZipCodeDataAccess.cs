@@ -15,7 +15,7 @@ public class ZipCodeDataAccess : GenericDataAccess<ZipCode>, IZipCodeDataAccess
     /// <inheritdoc/>
     public async Task<bool> Exists(int id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
+        var entity = await base.GetFirstOrDefaultAsync(new Specification<ZipCode>(e => e.Id.Equals(id)));
         return entity != null;
     }
 }

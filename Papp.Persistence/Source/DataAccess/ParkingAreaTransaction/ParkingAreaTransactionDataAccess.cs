@@ -15,7 +15,7 @@ public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTra
     /// <inheritdoc/>
     public async Task<bool> Exists(Guid id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
+        var entity = await base.GetFirstOrDefaultAsync(new Specification<ParkingAreaTransaction>(e => e.Id.Equals(id)));
         return entity != null;
     }
 }

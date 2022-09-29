@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -63,7 +62,7 @@ public class BundleDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Bundle, bool>>?, IList<Bundle>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Bundle>?, IList<Bundle>, Task> runner = async (filter, expected) =>
         {
             IList<Bundle> BundleList = await sut.GetAllAsync(filter);
 
@@ -77,11 +76,11 @@ public class BundleDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Zip.Equals(8700), mockData.Where(e => e.Zip.Equals(8700)).ToList());
-        await runner(e => e.Id.Equals(2), new List<Bundle> { mockData[1] });
-        await runner(e => e.Id.Equals(-3), new List<Bundle>());
+        await runner(new Specification<Bundle>(e => e.Zip.Equals(8700)), mockData.Where(e => e.Zip.Equals(8700)).ToList());
+        await runner(new Specification<Bundle>(e => e.Id.Equals(2)), new List<Bundle> { mockData[1] });
+        await runner(new Specification<Bundle>(e => e.Id.Equals(-3)), new List<Bundle>());
     }
 
     [TestMethod]
@@ -89,7 +88,7 @@ public class BundleDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<Bundle, bool>>, Bundle?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<Bundle>, Bundle?, Task> runner = async (filter, expected) =>
         {
             Bundle? Bundle = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -104,13 +103,13 @@ public class BundleDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-2), null);
-        await runner(e => e.Id.Equals(0), null);
-        await runner(e => e.Id.Equals(142), null);
-        await runner(e => e.Id.Equals(3), mockData[2]);
-        await runner(e => e.Zip.Equals(-1), null);
-        await runner(e => e.Address.Equals("address#2"), mockData[1]);
+        // Takes in a specification class based on which to filter and the expected
+        await runner(new Specification<Bundle>(e => e.Id.Equals(-2)), null);
+        await runner(new Specification<Bundle>(e => e.Id.Equals(0)), null);
+        await runner(new Specification<Bundle>(e => e.Id.Equals(142)), null);
+        await runner(new Specification<Bundle>(e => e.Id.Equals(3)), mockData[2]);
+        await runner(new Specification<Bundle>(e => e.Zip.Equals(-1)), null);
+        await runner(new Specification<Bundle>(e => e.Address.Equals("address#2")), mockData[1]);
     }
 
     [DataTestMethod]

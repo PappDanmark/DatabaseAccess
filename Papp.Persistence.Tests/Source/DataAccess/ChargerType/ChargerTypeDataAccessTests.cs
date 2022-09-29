@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -69,7 +68,7 @@ public class ChargerTypeDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ChargerType, bool>>?, IList<ChargerType>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ChargerType>?, IList<ChargerType>, Task> runner = async (filter, expected) =>
         {
             IList<ChargerType> ChargerTypeList = await sut.GetAllAsync(filter);
 
@@ -83,11 +82,11 @@ public class ChargerTypeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Operator.Equals(2), mockData.Where(e => e.Operator.Equals(2)).ToList());
-        await runner(e => e.Kilowatt.Equals(20), new List<ChargerType> { mockData[2] });
-        await runner(e => e.Kilowatt.Equals(-3), new List<ChargerType>());
+        await runner(new Specification<ChargerType>(e => e.Operator.Equals(2)), mockData.Where(e => e.Operator.Equals(2)).ToList());
+        await runner(new Specification<ChargerType>(e => e.Kilowatt.Equals(20)), new List<ChargerType> { mockData[2] });
+        await runner(new Specification<ChargerType>(e => e.Kilowatt.Equals(-3)), new List<ChargerType>());
     }
 
     [TestMethod]
@@ -95,7 +94,7 @@ public class ChargerTypeDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ChargerType, bool>>, ChargerType?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ChargerType>, ChargerType?, Task> runner = async (filter, expected) =>
         {
             ChargerType? ChargerType = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -110,13 +109,13 @@ public class ChargerTypeDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Name.ToString().Equals(""), null);
-        await runner(e => e.Name.ToString().Equals("   "), null);
-        await runner(e => e.Id.Equals(-4), null);
-        await runner(e => e.Id.Equals(3), mockData[2]);
-        await runner(e => e.Operator.Equals(-1), null);
-        await runner(e => e.Operator.Equals(2), mockData[0]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<ChargerType>(e => e.Name.ToString().Equals("")), null);
+        await runner(new Specification<ChargerType>(e => e.Name.ToString().Equals("   ")), null);
+        await runner(new Specification<ChargerType>(e => e.Id.Equals(-4)), null);
+        await runner(new Specification<ChargerType>(e => e.Id.Equals(3)), mockData[2]);
+        await runner(new Specification<ChargerType>(e => e.Operator.Equals(-1)), null);
+        await runner(new Specification<ChargerType>(e => e.Operator.Equals(2)), mockData[0]);
     }
 
     [DataTestMethod]

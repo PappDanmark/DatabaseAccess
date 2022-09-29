@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
 using Papp.Persistence.DataAccess;
-using System.Linq.Expressions;
 
 namespace Papp.Persistence.Tests;
 
@@ -60,7 +59,7 @@ public class ChargerConnectorDataAccessTests
     public async Task GetAllAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ChargerConnector, bool>>?, IList<ChargerConnector>, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ChargerConnector>?, IList<ChargerConnector>, Task> runner = async (filter, expected) =>
         {
             IList<ChargerConnector> ChargerConnectorList = await sut.GetAllAsync(filter);
 
@@ -74,11 +73,11 @@ public class ChargerConnectorDataAccessTests
         };
 
         // Actual tests
-        // Takes in the optional lamba exp. based on which to filter and the expected list of entities
+        // Takes in the optional specification class based on which to filter and the expected list of entities
         await runner(null, mockData);
-        await runner(e => e.Name.Equals("#2"), mockData.Where(e => e.Name.Equals("#2")).ToList());
-        await runner(e => e.Id.Equals(1), new List<ChargerConnector> { mockData[0] });
-        await runner(e => e.Id.Equals(-3), new List<ChargerConnector>());
+        await runner(new Specification<ChargerConnector>(e => e.Name.Equals("#2")), mockData.Where(e => e.Name.Equals("#2")).ToList());
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(1)), new List<ChargerConnector> { mockData[0] });
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(-3)), new List<ChargerConnector>());
     }
 
     [TestMethod]
@@ -86,7 +85,7 @@ public class ChargerConnectorDataAccessTests
     public async Task GetFirstOrDefaultAsync()
     {
         // Implementation of the test
-        Func<Expression<Func<ChargerConnector, bool>>, ChargerConnector?, Task> runner = async (filter, expected) =>
+        Func<IBaseSpecification<ChargerConnector>, ChargerConnector?, Task> runner = async (filter, expected) =>
         {
             ChargerConnector? ChargerConnector = await sut.GetFirstOrDefaultAsync(filter);
             if (expected == null)
@@ -101,14 +100,14 @@ public class ChargerConnectorDataAccessTests
         };
 
         // Actual tests
-        // Takes in the lamba exp. based on which to filter and the expected
-        await runner(e => e.Id.Equals(-1), null);
-        await runner(e => e.Id.Equals(0), null);
-        await runner(e => e.Id.Equals(144), null);
-        await runner(e => e.Id.Equals(2), mockData[1]);
-        await runner(e => e.Name.Equals(" "), null);
-        await runner(e => e.Name.Equals(""), null);
-        await runner(e => e.Name.Equals("#2"), mockData[1]);
+        // Takes in the specification class based on which to filter and the expected
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(-1)), null);
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(0)), null);
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(144)), null);
+        await runner(new Specification<ChargerConnector>(e => e.Id.Equals(2)), mockData[1]);
+        await runner(new Specification<ChargerConnector>(e => e.Name.Equals(" ")), null);
+        await runner(new Specification<ChargerConnector>(e => e.Name.Equals("")), null);
+        await runner(new Specification<ChargerConnector>(e => e.Name.Equals("#2")), mockData[1]);
     }
 
     [DataTestMethod]
