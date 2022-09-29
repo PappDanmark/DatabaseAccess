@@ -18,6 +18,9 @@ public class SpecificationEvaluator<TEntity> where TEntity : class
         query = specification.IncludeExpressions.Aggregate(query, (current, include) => current.Include(include));
 
         query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
+        
+        // To debug/print the sql queries that get executed on the db.
+        // Console.WriteLine(query.ToQueryString());
 
         return query;
     }
