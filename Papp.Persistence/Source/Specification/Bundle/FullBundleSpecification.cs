@@ -8,6 +8,7 @@ public class FullBundleSpecification : BaseSpecification<Bundle>
     {
         // Includes the Bundle toghether will some of it's nested properties.
         AddInclude($"{nameof(Bundle.ZipNavigation)}.{nameof(ZipCode.Country)}");
+        AddInclude($"{nameof(Bundle.Booths)}.{nameof(Booth.SensorInstallNavigation)}");
         AddInclude($"{nameof(Bundle.Booths)}.{nameof(Booth.ChargerNavigation)}");
         AddInclude($"{nameof(Bundle.Booths)}.{nameof(Booth.ChargerNavigation)}.{nameof(Charger.ChargerTypeNavigation)}");
         AddInclude($"{nameof(Bundle.Booths)}.{nameof(Booth.ChargerNavigation)}.{nameof(Charger.ChargerTypeNavigation)}.{nameof(ChargerType.ConnectorNavigation)}");
