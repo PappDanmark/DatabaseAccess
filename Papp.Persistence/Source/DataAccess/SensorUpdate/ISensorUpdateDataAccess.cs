@@ -7,4 +7,9 @@ namespace Papp.Persistence.DataAccess;
 /// </summary>
 public interface ISensorUpdateDataAccess : IGenericDataAccess<SensorUpdate>
 {
+    /// <summary>
+    /// Retrieves last Sensor Update of a specific sensor id.
+    /// </summary>
+    /// <returns>Latest Sensor Update or null if sensor had no registered updates.</returns>
+    SensorUpdate GetLastestBySensorId(string id);
 }
