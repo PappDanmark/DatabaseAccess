@@ -12,6 +12,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
         this.context = context;
     }
 
+    /// <inheritdoc/>
     public SensorUpdate? GetLastestBySensorId(string id)
     {
         return this.context.SensorUpdates
