@@ -13,4 +13,10 @@ public interface IParkingAreaTransactionDataAccess : IGenericDataAccess<ParkingA
     /// <param name="id">An id to check for.</param>
     /// <returns>Whether or not a matching id ParkingAreaTransaction could be found.</returns>
     Task<bool> Exists(Guid id);
+
+    /// <summary>
+    /// Retrieves last Parking Area Transaction of a specific Parking Area id.
+    /// </summary>
+    /// <returns>Latest Parking Area Transaction.</returns>
+    ParkingAreaTransaction? GetLastestByParkingAreaId(int id);
 }
