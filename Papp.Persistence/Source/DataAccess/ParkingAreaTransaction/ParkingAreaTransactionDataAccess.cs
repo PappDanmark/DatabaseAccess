@@ -25,6 +25,7 @@ public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTra
         return this.context.ParkingAreaTransactions
             .Where(e => e.ParkingAreaId.Equals(id))
             .OrderByDescending(e => e.Timestamp)
+            .Take(1)
             .FirstOrDefault();
     }
 }
