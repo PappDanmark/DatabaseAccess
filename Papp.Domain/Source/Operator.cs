@@ -1,20 +1,24 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-/// <summary>
-/// The charger operator.
-/// </summary>
-public partial class Operator
+namespace Papp.Domain
 {
-    public Operator()
-    {
-        ChargerTypes = new HashSet<ChargerType>();
-    }
-
-    public short Id { get; set; }
     /// <summary>
-    /// Name of the charger operator.
+    /// The charger operator.
     /// </summary>
-    public string Name { get; set; }
+    public partial class Operator
+    {
+        public Operator()
+        {
+            ChargerTypes = new HashSet<ChargerType>();
+        }
 
-    public virtual ICollection<ChargerType> ChargerTypes { get; set; }
+        public short Id { get; set; }
+        /// <summary>
+        /// Name of the charger operator.
+        /// </summary>
+        public string Name { get; set; }
+
+        public virtual ICollection<ChargerType> ChargerTypes { get; set; }
+    }
 }

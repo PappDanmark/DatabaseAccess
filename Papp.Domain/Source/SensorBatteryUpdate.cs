@@ -1,20 +1,24 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-/// <summary>
-/// Table that contains all battery updates.
-/// </summary>
-public partial class SensorBatteryUpdate
+namespace Papp.Domain
 {
-    public Guid Id { get; set; }
-    public DateTime Ts { get; set; }
     /// <summary>
-    /// Percent battery left.
+    /// Table that contains all battery updates.
     /// </summary>
-    public float Percent { get; set; }
-    /// <summary>
-    /// Reference to sensor table.
-    /// </summary>
-    public string SensorId { get; set; }
+    public partial class SensorBatteryUpdate
+    {
+        public Guid Id { get; set; }
+        public DateTime Ts { get; set; }
+        /// <summary>
+        /// Percent battery left.
+        /// </summary>
+        public float Percent { get; set; }
+        /// <summary>
+        /// Reference to sensor table.
+        /// </summary>
+        public string SensorId { get; set; }
 
-    public virtual Sensor Sensor { get; set; }
+        public virtual Sensor Sensor { get; set; }
+    }
 }
