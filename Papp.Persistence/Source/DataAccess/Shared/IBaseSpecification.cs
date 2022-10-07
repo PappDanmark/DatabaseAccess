@@ -8,4 +8,8 @@ public interface IBaseSpecification<TEntity>
     List<Expression<Func<TEntity, object>>> IncludeExpressions { get; }
     List<string> IncludeStrings { get; }
     bool Tracked { get; }
+
+    Expression<Func<TEntity, object>>? OrderBy { get; }
+    Expression<Func<TEntity, object>>? OrderByDescending { get; }
+    Expression<Func<TEntity, object>>? GroupBy { get; }
 }

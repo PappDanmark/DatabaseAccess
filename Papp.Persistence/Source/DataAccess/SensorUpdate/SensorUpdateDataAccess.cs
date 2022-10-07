@@ -11,4 +11,14 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
     {
         this.context = context;
     }
+
+    /// <inheritdoc/>
+    public SensorUpdate? GetLastestBySensorId(string id)
+    {
+        return this.context.SensorUpdates
+            .Where(e => e.SensorId.Equals(id))
+            .OrderByDescending(e => e.Ts)
+            .Take(1)
+            .FirstOrDefault();
+    }
 }
