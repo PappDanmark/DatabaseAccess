@@ -18,6 +18,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
         return this.context.SensorUpdates
             .Where(e => e.SensorId.Equals(id))
             .OrderByDescending(e => e.Ts)
+            .Take(1)
             .FirstOrDefault();
     }
 }
