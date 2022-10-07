@@ -12,6 +12,7 @@ public interface IUnitOfWork
     IManufacturerDataAccess Manufacturers { get; }
     IOperatorDataAccess Operators { get; }
     IParkingAreaDataAccess ParkingAreas { get; }
+    IParkingAreaOccupancyDataAccess ParkingAreaOccupancies { get; }
     IParkingAreaTransactionDataAccess ParkingAreaTransactions { get; }
     IParkingBoothDataAccess ParkingBooths { get; }
     ISensorDataAccess Sensors { get; }
