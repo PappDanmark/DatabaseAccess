@@ -5,11 +5,16 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class ParkingBoothDataAccess : GenericDataAccess<ParkingBooth>, IParkingBoothDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public ParkingBoothDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public ParkingBoothDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 
     /// <inheritdoc/>

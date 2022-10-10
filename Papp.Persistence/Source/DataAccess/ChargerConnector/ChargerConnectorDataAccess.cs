@@ -5,11 +5,16 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class ChargerConnectorDataAccess : GenericDataAccess<ChargerConnector>, IChargerConnectorDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public ChargerConnectorDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public ChargerConnectorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 
     /// <inheritdoc/>

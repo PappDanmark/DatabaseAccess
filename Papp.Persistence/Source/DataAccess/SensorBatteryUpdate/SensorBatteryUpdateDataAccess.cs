@@ -5,10 +5,15 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class SensorBatteryUpdateDataAccess : GenericDataAccess<SensorBatteryUpdate>, ISensorBatteryUpdateDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public SensorBatteryUpdateDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public SensorBatteryUpdateDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 }

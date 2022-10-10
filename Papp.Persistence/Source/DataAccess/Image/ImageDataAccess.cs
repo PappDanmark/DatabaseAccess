@@ -5,11 +5,16 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class ImageDataAccess : GenericDataAccess<Image>, IImageDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public ImageDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public ImageDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 
     /// <inheritdoc/>

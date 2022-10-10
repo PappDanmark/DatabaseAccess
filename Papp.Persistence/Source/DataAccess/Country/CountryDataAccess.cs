@@ -5,11 +5,16 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class CountryDataAccess : GenericDataAccess<Country>, ICountryDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public CountryDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public CountryDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 
     /// <inheritdoc/>

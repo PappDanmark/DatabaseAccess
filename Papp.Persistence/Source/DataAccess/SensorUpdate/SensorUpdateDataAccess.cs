@@ -5,17 +5,22 @@ namespace Papp.Persistence.DataAccess;
 /// <inheritdoc/>
 public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUpdateDataAccess
 {
-    private readonly PappDbContext context;
+    private readonly PappDbContext DbContext;
 
     public SensorUpdateDataAccess(PappDbContext context) : base(context)
     {
-        this.context = context;
+        this.DbContext = context;
+    }
+
+    public SensorUpdateDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    {
+        this.DbContext = unitOfWork.DbContext;
     }
 
     /// <inheritdoc/>
     public SensorUpdate? GetLastestBySensorId(string id)
     {
-        return this.context.SensorUpdates
+        return this.DbContext.SensorUpdates
             .Where(e => e.SensorId.Equals(id))
             .OrderByDescending(e => e.Ts)
             .Take(1)
