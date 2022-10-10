@@ -2,8 +2,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Papp.Persistence.DataAccess;
 
-public interface IUnitOfWork<TContext> : IDisposable, IAsyncDisposable where TContext : DbContext
+public interface IUnitOfWork<out TContext> : IDisposable, IAsyncDisposable where TContext : DbContext
 {
+    /// <summary>
+    /// Gets the database context.
+    /// </summary>
+    /// <returns>The instance of type <typeparamref name="TContext"/>.</returns>
+    TContext DbContext { get; }
+
     /// <summary>
     /// Starts a database transaction.
     /// </summary>
@@ -45,23 +51,4 @@ public interface IUnitOfWork<TContext> : IDisposable, IAsyncDisposable where TCo
     /// </summary>
     /// <returns>A <see cref="Task{TResult}"/> containing the number of state entries written to database or -1 if an error occured.</returns>
     Task<int> SaveChangesAsync();
-
-    // TODO: Decouple UnitOfWork from the specific data access objects
-    IBoothDataAccess Booths { get; }
-    IBundleDataAccess Bundles { get; }
-    IChargerDataAccess Chargers { get; }
-    IChargerConnectorDataAccess ChargerConnectors { get; }
-    IChargerTypeDataAccess ChargerTypes { get; }
-    ICountryDataAccess Countries { get; }
-    IImageDataAccess Images { get; }
-    IManufacturerDataAccess Manufacturers { get; }
-    IOperatorDataAccess Operators { get; }
-    IParkingAreaDataAccess ParkingAreas { get; }
-    IParkingAreaTransactionDataAccess ParkingAreaTransactions { get; }
-    IParkingBoothDataAccess ParkingBooths { get; }
-    ISensorDataAccess Sensors { get; }
-    ISensorBatteryUpdateDataAccess SensorBatteryUpdates { get; }
-    ISensorInstallDataAccess SensorInstalls { get; }
-    ISensorTypeDataAccess SensorTypes { get; }
-    ISensorUpdateDataAccess SensorUpdates { get; }
 }

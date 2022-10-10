@@ -1,35 +1,18 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace Papp.Persistence.DataAccess;
 
-public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : PappDbContext
+public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDataAccessFactory where TContext : DbContext
 {
-    private TContext DbContext { get; }
+    /// <inheritdoc/>
+    public TContext DbContext { get; }
+
     private bool Disposed;
-    // For future decoupling.
     private IDictionary<string, object> DataAccessObjects { get; }
     private IDbContextTransaction? Transaction;
     private ILogger<IUnitOfWork<TContext>> Logger { get; }
-
-    // TODO: Decouple
-    public IBoothDataAccess Booths { get; private set; }
-    public IBundleDataAccess Bundles { get; private set; }
-    public IChargerDataAccess Chargers { get; private set; }
-    public IChargerConnectorDataAccess ChargerConnectors { get; private set; }
-    public IChargerTypeDataAccess ChargerTypes { get; private set; }
-    public ICountryDataAccess Countries { get; private set; }
-    public IImageDataAccess Images { get; private set; }
-    public IManufacturerDataAccess Manufacturers { get; private set; }
-    public IOperatorDataAccess Operators { get; private set; }
-    public IParkingAreaDataAccess ParkingAreas { get; private set; }
-    public IParkingAreaTransactionDataAccess ParkingAreaTransactions { get; private set; }
-    public IParkingBoothDataAccess ParkingBooths { get; private set; }
-    public ISensorDataAccess Sensors { get; private set; }
-    public ISensorBatteryUpdateDataAccess SensorBatteryUpdates { get; private set; }
-    public ISensorInstallDataAccess SensorInstalls { get; private set; }
-    public ISensorTypeDataAccess SensorTypes { get; private set; }
-    public ISensorUpdateDataAccess SensorUpdates { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
@@ -43,24 +26,6 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : PappD
         this.DataAccessObjects = new Dictionary<string, object>();
         this.Transaction = null;
         this.Logger = logger;
-
-        this.Booths = new BoothDataAccess(context);
-        this.Bundles = new BundleDataAccess(context);
-        this.Chargers = new ChargerDataAccess(context);
-        this.ChargerConnectors = new ChargerConnectorDataAccess(context);
-        this.ChargerTypes = new ChargerTypeDataAccess(context);
-        this.Countries = new CountryDataAccess(context);
-        this.Images = new ImageDataAccess(context);
-        this.Manufacturers = new ManufacturerDataAccess(context);
-        this.Operators = new OperatorDataAccess(context);
-        this.ParkingAreas = new ParkingAreaDataAccess(context);
-        this.ParkingAreaTransactions = new ParkingAreaTransactionDataAccess(context);
-        this.ParkingBooths = new ParkingBoothDataAccess(context);
-        this.Sensors = new SensorDataAccess(context);
-        this.SensorBatteryUpdates = new SensorBatteryUpdateDataAccess(context);
-        this.SensorInstalls = new SensorInstallDataAccess(context);
-        this.SensorTypes = new SensorTypeDataAccess(context);
-        this.SensorUpdates = new SensorUpdateDataAccess(context);
     }
 
     /// <inheritdoc/>
@@ -177,6 +142,17 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : PappD
             this.Logger.LogError("[UnitOfWork]: Error in {0}.", e);
             return -1;
         }
+    }
+
+    /// <inheritdoc/>
+    public IGenericDataAccess<TEntity> GenericDataAccessObject<TEntity>() where TEntity : class
+    {
+        var key = typeof(TEntity).Name;
+        if (!this.DataAccessObjects.ContainsKey(key))
+        {
+            this.DataAccessObjects.Add(key, new GenericDataAccess<TEntity>(this.DbContext));
+        }
+        return (IGenericDataAccess<TEntity>) this.DataAccessObjects[key];
     }
 
     /// <inheritdoc/>
