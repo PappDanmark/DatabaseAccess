@@ -12,7 +12,7 @@ public static class PersistenceServicesRegistration
         services.AddDbContext<PappDbContext>(options => options.UseNpgsql(
             configuration.GetConnectionString(connectionStringEntry ?? "DefaultConnection")
         ));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork<PappDbContext>, UnitOfWork<PappDbContext>>();
         return services;
     }
 }
