@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Papp.Persistence.Context;
 using Papp.Persistence.DataAccess;
 
 namespace Papp.Persistence;
 
-public static class PersistenceServicesRegistration
+public static class Startup
 {
     public static IServiceCollection ConfigurePersistenceServices(this IServiceCollection services, IConfiguration configuration, string? connectionStringEntry = null)
     {
