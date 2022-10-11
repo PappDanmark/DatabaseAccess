@@ -1,5 +1,8 @@
 namespace Papp.Persistence.DataAccess;
 
+/// <summary>
+/// Defines the interface for any DataAccessFactory implementations.
+/// </summary>
 public interface IDataAccessFactory
 {    
     /// <summary>

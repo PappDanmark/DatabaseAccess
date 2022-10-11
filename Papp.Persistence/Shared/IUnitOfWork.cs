@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Papp.Persistence.DataAccess;
 
+/// <summary>
+/// Defines the interface for any UnitOfWork implementations.
+/// </summary>
 public interface IUnitOfWork<out TContext> : IDisposable, IAsyncDisposable where TContext : DbContext
 {
     /// <summary>
