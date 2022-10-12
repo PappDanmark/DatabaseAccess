@@ -3,6 +3,7 @@ using Moq;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Papp.Domain;
+using Papp.Persistence.Context;
 using Papp.Persistence.DataAccess;
 
 namespace Papp.Persistence.Tests;
