@@ -62,6 +62,7 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDataAccessFactory wh
         if (this.Transaction != null)
         {
             this.Transaction.Commit();
+            this.Transaction = null;
         }
         else
         {
@@ -76,6 +77,7 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDataAccessFactory wh
         if (this.Transaction != null)
         {
             await this.Transaction.CommitAsync();
+            this.Transaction = null;
         }
         else
         {
