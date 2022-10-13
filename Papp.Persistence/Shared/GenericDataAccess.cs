@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Papp.Persistence.DataAccess;
@@ -176,21 +177,33 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     #region Add
 
     /// <inheritdoc/>
-    public virtual void Add(TEntity entity)
+    public virtual TEntity Add(TEntity entity)
     {
-        this.DbSet.Add(entity);
+        return this.DbSet.Add(entity).Entity;
     }
 
     /// <inheritdoc/>
-    public virtual async Task AddAsync(TEntity entity)
+    public virtual async Task<EntityEntry<TEntity>> AddAsync(TEntity entity)
     {
-        await this.DbSet.AddAsync(entity);
+        return await this.DbSet.AddAsync(entity);
+    }
+
+    /// <inheritdoc/>
+    public virtual void AddRange(params TEntity[] entities)
+    {
+        this.DbSet.AddRange(entities);
     }
 
     /// <inheritdoc/>
     public virtual void AddRange(IEnumerable<TEntity> entities)
     {
         this.DbSet.AddRange(entities);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task AddRangeAsync(params TEntity[] entities)
+    {
+        await this.DbSet.AddRangeAsync(entities);
     }
 
     /// <inheritdoc/>

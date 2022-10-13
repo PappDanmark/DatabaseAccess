@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Papp.Persistence.DataAccess;
@@ -201,19 +202,33 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// Adds the given entity to the database.
     /// </summary>
     /// <param name="entity">The entity to be added.</param>
-    void Add(TEntity entity);
+    /// <returns>The entity with any modified fields.</returns>
+    TEntity Add(TEntity entity);
 
     /// <summary>
     /// Adds asynchronously the given entity to the database.
     /// </summary>
     /// <param name="entity">The entity to be added.</param>
-    Task AddAsync(TEntity entity);
+    /// <returns>The entity with any modified fields.</returns>
+    Task<EntityEntry<TEntity>> AddAsync(TEntity entity);
+
+    /// <summary>
+    /// Adds multiple entities to the database.
+    /// </summary>
+    /// <param name="entities">The set of entities to be added.</param>
+    void AddRange(params TEntity[] entities);
 
     /// <summary>
     /// Adds multiple entities to the database.
     /// </summary>
     /// <param name="entities">The set of entities to be added.</param>
     void AddRange(IEnumerable<TEntity> entities);
+
+    /// <summary>
+    /// Adds asynchronously multiple entities to the database.
+    /// </summary>
+    /// <param name="entities">The set of entities to be added.</param>
+    Task AddRangeAsync(params TEntity[] entities);
 
     /// <summary>
     /// Adds asynchronously multiple entities to the database.
