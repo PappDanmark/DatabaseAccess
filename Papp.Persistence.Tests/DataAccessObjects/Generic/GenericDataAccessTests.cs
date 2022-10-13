@@ -6,6 +6,10 @@ using Papp.Domain;
 using Papp.Persistence.DataAccess;
 using Papp.Persistence.Context;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Papp.Persistence.Tests;
 
@@ -192,20 +196,6 @@ public class GenericDataAccessTests
 
     // All tests related to Create methods:
     #region Add
-
-    [TestMethod]
-    [TestCategory(TestConstants.UnitTest)]
-    public void Add()
-    {
-        // Setup
-        var booth = new Mock<Booth>().Object;
-
-        // Run SUT
-        sut.Add(booth);
-
-        // Verify
-        this.mockDbSet.Verify(c => c.Add(It.IsAny<Booth>()), Times.Once);
-    }
 
     [TestMethod]
     [TestCategory(TestConstants.UnitTest)]
