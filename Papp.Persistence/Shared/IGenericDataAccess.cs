@@ -209,5 +209,17 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <param name="entity">The entity to be added.</param>
     Task AddAsync(TEntity entity);
 
+    /// <summary>
+    /// Adds multiple entities to the database.
+    /// </summary>
+    /// <param name="entities">The set of entities to be added.</param>
+    void AddRange(IEnumerable<TEntity> entities);
+
+    /// <summary>
+    /// Adds asynchronously multiple entities to the database.
+    /// </summary>
+    /// <param name="entities">The set of entities to be added.</param>
+    Task AddRangeAsync(IEnumerable<TEntity> entities);
+
     #endregion
 }

@@ -176,15 +176,27 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     #region Add
 
     /// <inheritdoc/>
-    public void Add(TEntity entity)
+    public virtual void Add(TEntity entity)
     {
         this.DbSet.Add(entity);
     }
 
     /// <inheritdoc/>
-    public async Task AddAsync(TEntity entity)
+    public virtual async Task AddAsync(TEntity entity)
     {
         await this.DbSet.AddAsync(entity);
+    }
+
+    /// <inheritdoc/>
+    public virtual void AddRange(IEnumerable<TEntity> entities)
+    {
+        this.DbSet.AddRange(entities);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    {
+        await this.DbSet.AddRangeAsync(entities);
     }
 
     #endregion
