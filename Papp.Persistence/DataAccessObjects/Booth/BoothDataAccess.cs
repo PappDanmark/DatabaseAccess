@@ -19,9 +19,9 @@ public class BoothDataAccess : GenericDataAccess<Booth>, IBoothDataAccess
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Exists(Guid id)
+    public async Task<bool> ExistsAsync(Guid id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(new Specification<Booth>(e => e.Id.Equals(id)));
+        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
         return entity != null;
     }
 }

@@ -19,9 +19,9 @@ public class CountryDataAccess : GenericDataAccess<Country>, ICountryDataAccess
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Exists(short id)
+    public async Task<bool> ExistsAsync(short id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(new Specification<Country>(e => e.Iso3166Numeric.Equals(id)));
+        var entity = await base.GetFirstOrDefaultAsync(e => e.Iso3166Numeric.Equals(id));
         return entity != null;
     }
 }
