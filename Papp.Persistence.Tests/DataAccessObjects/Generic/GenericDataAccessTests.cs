@@ -198,10 +198,10 @@ public class GenericDataAccessTests
     public void Add()
     {
         // Setup
-        var Booth = new Mock<Booth>().Object;
+        var booth = new Mock<Booth>().Object;
 
         // Run SUT
-        sut.Add(Booth);
+        sut.Add(booth);
 
         // Verify
         this.mockDbSet.Verify(c => c.Add(It.IsAny<Booth>()), Times.Once);
@@ -212,13 +212,41 @@ public class GenericDataAccessTests
     public async Task AddAsync()
     {
         // Setup
-        var Booth = new Mock<Booth>().Object;
+        var booth = new Mock<Booth>().Object;
 
         // Run SUT
-        await sut.AddAsync(Booth);
+        await sut.AddAsync(booth);
 
         // Verify
         this.mockDbSet.Verify(c => c.AddAsync(It.IsAny<Booth>(), default), Times.Once);
+    }
+
+    [TestMethod]
+    [TestCategory(TestConstants.UnitTest)]
+    public void AddRange()
+    {
+        // Setup
+        var booths = new Mock<IEnumerable<Booth>>().Object;
+
+        // Run SUT
+        sut.AddRange(booths);
+
+        // Verify
+        this.mockDbSet.Verify(c => c.AddRange(It.IsAny<IEnumerable<Booth>>()), Times.Once);
+    }
+
+    [TestMethod]
+    [TestCategory(TestConstants.UnitTest)]
+    public async Task AddRangeAsync()
+    {
+        // Setup
+        var booths = new Mock<IEnumerable<Booth>>().Object;
+
+        // Run SUT
+        await sut.AddRangeAsync(booths);
+
+        // Verify
+        this.mockDbSet.Verify(c => c.AddRangeAsync(It.IsAny<IEnumerable<Booth>>(), default), Times.Once);
     }
 
     #endregion
