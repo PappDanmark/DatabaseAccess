@@ -19,9 +19,9 @@ public class OperatorDataAccess : GenericDataAccess<Operator>, IOperatorDataAcce
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Exists(short id)
+    public async Task<bool> ExistsAsync(short id)
     {
-        var entity = await base.GetFirstOrDefaultAsync(new Specification<Operator>(e => e.Id.Equals(id)));
+        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
         return entity != null;
     }
 }
