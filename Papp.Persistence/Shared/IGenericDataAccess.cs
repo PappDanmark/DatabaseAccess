@@ -9,6 +9,7 @@ namespace Papp.Persistence.DataAccess;
 /// </summary>
 public interface IGenericDataAccess<TEntity> where TEntity : class
 {
+    // All methods related to Read database operations:
     #region Read
 
     /// <summary>
@@ -43,7 +44,7 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                         Expression<Func<TEntity, bool>> predicate,
                                         Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                         Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                        bool tracking = false);
+                                        bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets asynchronously the first or default entity based on a predicate, orderby delegate and include delegate.
@@ -77,7 +78,7 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                                    Expression<Func<TEntity, bool>> predicate,
                                                    Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                                    Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                                   bool tracking = false);
+                                                   bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets all the entities based on a predicate, orderby delegate and include delegate.
@@ -105,7 +106,7 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                                      Expression<Func<TEntity, bool>>? predicate = null,
                                                      Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                                      Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                                     bool tracking = false);
+                                                     bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets all the entities based on a predicate, orderby delegate and include delegate.
@@ -133,7 +134,7 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                                                Expression<Func<TEntity, bool>>? predicate = null,
                                                                Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                                                Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                                               bool tracking = false);
+                                                               bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets all the entities based on a predicate, orderby delegate and include delegate.
@@ -161,7 +162,7 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                                      Expression<Func<TEntity, bool>>? predicate = null,
                                                      Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                                      Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                                     bool tracking = false);
+                                                     bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets asynchronously all the entities based on a predicate, orderby delegate and include delegate.
@@ -189,10 +190,11 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
                                                                 Expression<Func<TEntity, bool>>? predicate = null,
                                                                 Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
                                                                 Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
-                                                                bool tracking = false);
+                                                                bool tracking = false) where TResult : class;
 
     #endregion
-    
+
+    // All methods related to Create database operations:
     #region Add
 
     /// <summary>
