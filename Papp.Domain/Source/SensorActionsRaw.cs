@@ -1,7 +1,11 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class SensorActionsRaw
+namespace Papp.Domain
 {
-    public Guid ActionId { get; set; }
-    public string SensorAction { get; set; }
+    public partial class SensorActionsRaw
+    {
+        public Guid ActionId { get; set; }
+        public string SensorAction { get; set; }
+    }
 }

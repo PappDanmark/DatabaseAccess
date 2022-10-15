@@ -1,20 +1,24 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class SensorType
+namespace Papp.Domain
 {
-    public SensorType()
+    public partial class SensorType
     {
-        ParkingAreas = new HashSet<ParkingArea>();
-        Sensor1s = new HashSet<Sensor1>();
-        Sensors = new HashSet<Sensor>();
+        public SensorType()
+        {
+            ParkingAreas = new HashSet<ParkingArea>();
+            Sensor1s = new HashSet<Sensor1>();
+            Sensors = new HashSet<Sensor>();
+        }
+
+        public Guid Id { get; set; }
+        public string Model { get; set; }
+        public short Manufacturer { get; set; }
+
+        public virtual Manufacturer ManufacturerNavigation { get; set; }
+        public virtual ICollection<ParkingArea> ParkingAreas { get; set; }
+        public virtual ICollection<Sensor1> Sensor1s { get; set; }
+        public virtual ICollection<Sensor> Sensors { get; set; }
     }
-
-    public Guid Id { get; set; }
-    public string Model { get; set; }
-    public short Manufacturer { get; set; }
-
-    public virtual Manufacturer ManufacturerNavigation { get; set; }
-    public virtual ICollection<ParkingArea> ParkingAreas { get; set; }
-    public virtual ICollection<Sensor1> Sensor1s { get; set; }
-    public virtual ICollection<Sensor> Sensors { get; set; }
 }

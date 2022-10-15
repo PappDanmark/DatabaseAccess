@@ -11,14 +11,14 @@ namespace Papp.Persistence.Tests;
 [TestClass]
 public class ParkingAreaTransactionDataAccessTests
 {
-    private List<ParkingAreaTransaction> mockData;
-    private Mock<DbSet<ParkingAreaTransaction>> mockParkingAreaTransactionDbSet;
+    private List<ParkingAreaTransaction0> mockData;
+    private Mock<DbSet<ParkingAreaTransaction0>> mockParkingAreaTransactionDbSet;
     private Mock<PappDbContext> mockContext;
     private ParkingAreaTransactionDataAccess sut;
 
     public ParkingAreaTransactionDataAccessTests()
     {
-        this.mockData = new List<ParkingAreaTransaction> {
+        this.mockData = new List<ParkingAreaTransaction0> {
             new() {
                 Id = new("dcd6a274-b7fb-41aa-b099-020296b70e5a"),
                 ParkingAreaId = 2
@@ -36,8 +36,8 @@ public class ParkingAreaTransactionDataAccessTests
         this.mockParkingAreaTransactionDbSet = mockData.AsQueryable().BuildMockDbSet();
 
         this.mockContext = new();
-        mockContext.Setup(c => c.Set<ParkingAreaTransaction>()).Returns(mockParkingAreaTransactionDbSet.Object);
-        mockContext.Setup(c => c.ParkingAreaTransactions).Returns(mockParkingAreaTransactionDbSet.Object);
+        mockContext.Setup(c => c.Set<ParkingAreaTransaction0>()).Returns(mockParkingAreaTransactionDbSet.Object);
+        mockContext.Setup(c => c.ParkingAreaTransaction0s).Returns(mockParkingAreaTransactionDbSet.Object);
 
         this.sut = new ParkingAreaTransactionDataAccess(mockContext.Object);
     }
@@ -46,13 +46,13 @@ public class ParkingAreaTransactionDataAccessTests
     [TestCategory(TestConstants.UnitTest)]
     public async Task AddAsync()
     {
-        ParkingAreaTransaction ParkingAreaTransaction = new Mock<ParkingAreaTransaction>().Object;
+        ParkingAreaTransaction0 ParkingAreaTransaction = new Mock<ParkingAreaTransaction0>().Object;
 
         // Run SUT
         await sut.AddAsync(ParkingAreaTransaction);
 
         // Verify
-        this.mockParkingAreaTransactionDbSet.Verify(c => c.AddAsync(It.IsAny<ParkingAreaTransaction>(), default), Times.Once);
+        this.mockParkingAreaTransactionDbSet.Verify(c => c.AddAsync(It.IsAny<ParkingAreaTransaction0>(), default), Times.Once);
     }
 
     [DataTestMethod]

@@ -1,17 +1,21 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class SensorActionOccupied
+namespace Papp.Domain
 {
-    public SensorActionOccupied()
+    public partial class SensorActionOccupied
     {
-        Sensor1s = new HashSet<Sensor1>();
+        public SensorActionOccupied()
+        {
+            Sensor1s = new HashSet<Sensor1>();
+        }
+
+        public Guid OsaId { get; set; }
+        public string SensorId { get; set; }
+        public bool Occupied { get; set; }
+        public DateTime ActionTimestamp { get; set; }
+
+        public virtual Sensor1 Sensor { get; set; }
+        public virtual ICollection<Sensor1> Sensor1s { get; set; }
     }
-
-    public Guid OsaId { get; set; }
-    public string SensorId { get; set; }
-    public bool Occupied { get; set; }
-    public DateTime ActionTimestamp { get; set; }
-
-    public virtual Sensor1 Sensor { get; set; }
-    public virtual ICollection<Sensor1> Sensor1s { get; set; }
 }
