@@ -5,7 +5,7 @@ namespace Papp.Persistence.DataAccess;
 /// <summary>
 /// Interface defining specific methods for the ParkingAreaTransaction domain object.
 /// </summary>
-public interface IParkingAreaTransactionDataAccess : IGenericDataAccess<ParkingAreaTransaction0>
+public interface IParkingAreaTransactionDataAccess : IGenericDataAccess<ParkingAreaTransaction>
 {
     /// <summary>
     /// Checks asynchronously if a ParkingAreaTransaction exists in the DB by the given id.
@@ -18,5 +18,5 @@ public interface IParkingAreaTransactionDataAccess : IGenericDataAccess<ParkingA
     /// Retrieves last Parking Area Transaction of a specific Parking Area id.
     /// </summary>
     /// <returns>Latest Parking Area Transaction.</returns>
-    ParkingAreaTransaction0? GetLastestByParkingAreaId(int id);
+    ParkingAreaTransaction? GetLastestByParkingAreaId(int id);
 }

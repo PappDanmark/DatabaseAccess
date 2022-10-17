@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Papp.Domain;
 
 namespace Papp.Persistence.Context
@@ -28,17 +27,7 @@ namespace Papp.Persistence.Context
         public virtual DbSet<Manufacturer> Manufacturers { get; set; }
         public virtual DbSet<Operator> Operators { get; set; }
         public virtual DbSet<ParkingArea> ParkingAreas { get; set; }
-        public virtual DbSet<ParkingAreaTransaction0> ParkingAreaTransaction0s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction1> ParkingAreaTransaction1s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction2> ParkingAreaTransaction2s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction3> ParkingAreaTransaction3s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction4> ParkingAreaTransaction4s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction5> ParkingAreaTransaction5s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction6> ParkingAreaTransaction6s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction7> ParkingAreaTransaction7s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction8> ParkingAreaTransaction8s { get; set; }
-        public virtual DbSet<ParkingAreaTransaction9> ParkingAreaTransaction9s { get; set; }
-        public virtual DbSet<ParkingAreaTransactionOld> ParkingAreaTransactionOlds { get; set; }
+        public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; }
         public virtual DbSet<ParkingBooth> ParkingBooths { get; set; }
         public virtual DbSet<ParkingBundle> ParkingBundles { get; set; }
         public virtual DbSet<Sensor> Sensors { get; set; }
@@ -399,12 +388,12 @@ namespace Papp.Persistence.Context
                     .HasConstraintName("parking_area_zip_code_id_fk");
             });
 
-            modelBuilder.Entity<ParkingAreaTransaction0>(entity =>
+            modelBuilder.Entity<ParkingAreaTransaction>(entity =>
             {
                 entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_0_pkey");
+                    .HasName("parking_area_transaction_pkey");
 
-                entity.ToTable("parking_area_transaction_0");
+                entity.ToTable("parking_area_transaction");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -417,255 +406,10 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.Timestamp).HasColumnName("timestamp");
 
                 entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction0s)
+                    .WithMany(p => p.ParkingAreaTransactions)
                     .HasForeignKey(d => d.ParkingAreaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction1>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_1_pkey");
-
-                entity.ToTable("parking_area_transaction_1");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction1s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction2>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_2_pkey");
-
-                entity.ToTable("parking_area_transaction_2");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction2s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction3>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_3_pkey");
-
-                entity.ToTable("parking_area_transaction_3");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction3s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction4>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_4_pkey");
-
-                entity.ToTable("parking_area_transaction_4");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction4s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction5>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_5_pkey");
-
-                entity.ToTable("parking_area_transaction_5");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction5s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction6>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_6_pkey");
-
-                entity.ToTable("parking_area_transaction_6");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction6s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction7>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_7_pkey");
-
-                entity.ToTable("parking_area_transaction_7");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction7s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction8>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_8_pkey");
-
-                entity.ToTable("parking_area_transaction_8");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction8s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransaction9>(entity =>
-            {
-                entity.HasKey(e => new { e.Id, e.ParkingAreaId })
-                    .HasName("parking_area_transaction_9_pkey");
-
-                entity.ToTable("parking_area_transaction_9");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.Timestamp).HasColumnName("timestamp");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransaction9s)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_partitioned_parking_area_id_fkey");
-            });
-
-            modelBuilder.Entity<ParkingAreaTransactionOld>(entity =>
-            {
-                entity.ToTable("parking_area_transaction_old");
-
-                entity.HasIndex(e => e.Id, "parking_area_transaction_id_uindex")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Timestamp, "parking_area_transaction_timestamp_index")
-                    .HasSortOrder(new[] { SortOrder.Descending });
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("uuid_generate_v4()");
-
-                entity.Property(e => e.OccupiedSpaces).HasColumnName("occupied_spaces");
-
-                entity.Property(e => e.ParkingAreaId).HasColumnName("parking_area_id");
-
-                entity.Property(e => e.Timestamp)
-                    .HasColumnName("timestamp")
-                    .HasComment("The timestamp of this transaction saved as UTC. It's important to set the time to UTC before inserting!");
-
-                entity.HasOne(d => d.ParkingArea)
-                    .WithMany(p => p.ParkingAreaTransactionOlds)
-                    .HasForeignKey(d => d.ParkingAreaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("parking_area_transaction_parking_area_id_fk");
             });
 
             modelBuilder.Entity<ParkingBooth>(entity =>
@@ -726,31 +470,6 @@ namespace Papp.Persistence.Context
 
             modelBuilder.Entity<Sensor>(entity =>
             {
-                entity.ToTable("sensor");
-
-                entity.HasComment("Table that contains all sensors.");
-
-                entity.HasIndex(e => e.Id, "sensor_id_uindex")
-                    .IsUnique();
-
-                entity.Property(e => e.Id)
-                    .HasColumnType("character varying")
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Type).HasColumnName("type");
-
-                entity.HasOne(d => d.TypeNavigation)
-                    .WithMany(p => p.Sensors)
-                    .HasForeignKey(d => d.Type)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("type");
-            });
-
-            modelBuilder.Entity<Sensor1>(entity =>
-            {
-                entity.HasKey(e => e.SensorId)
-                    .HasName("sensors_pkey");
-
                 entity.ToTable("sensors");
 
                 entity.Property(e => e.SensorId).HasColumnName("sensor_id");
@@ -776,21 +495,43 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.SensorTypeId).HasColumnName("sensor_type_id");
 
                 entity.HasOne(d => d.InstalledAtParkingBooth)
-                    .WithMany(p => p.Sensor1s)
+                    .WithMany(p => p.Sensors)
                     .HasForeignKey(d => d.InstalledAtParkingBoothId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("sensors_installed_at_parking_booth_id");
 
                 entity.HasOne(d => d.LastUpdatedBySensorActionNavigation)
-                    .WithMany(p => p.Sensor1s)
+                    .WithMany(p => p.Sensors)
                     .HasForeignKey(d => d.LastUpdatedBySensorAction)
                     .HasConstraintName("sensors_last_updated_by_sensor_action_fkey");
 
                 entity.HasOne(d => d.SensorType)
-                    .WithMany(p => p.Sensor1s)
+                    .WithMany(p => p.Sensors)
                     .HasForeignKey(d => d.SensorTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Sensor Type ID");
+            });
+
+            modelBuilder.Entity<Sensor1>(entity =>
+            {
+                entity.ToTable("sensor");
+
+                entity.HasComment("Table that contains all sensors.");
+
+                entity.HasIndex(e => e.Id, "sensor_id_uindex")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("character varying")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Type).HasColumnName("type");
+
+                entity.HasOne(d => d.TypeNavigation)
+                    .WithMany(p => p.Sensor1s)
+                    .HasForeignKey(d => d.Type)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("type");
             });
 
             modelBuilder.Entity<SensorActionOccupied>(entity =>

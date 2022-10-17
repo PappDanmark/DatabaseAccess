@@ -31,7 +31,7 @@ namespace Papp.Domain
 
         public virtual Booth BoothNavigation { get; set; }
         public virtual Image InstallImageNavigation { get; set; }
-        public virtual Sensor Sensor { get; set; }
+        public virtual Sensor1 Sensor { get; set; }
         public virtual ICollection<Booth> Booths { get; set; }
     }
 }

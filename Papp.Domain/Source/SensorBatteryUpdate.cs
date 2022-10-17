@@ -19,6 +19,6 @@ namespace Papp.Domain
         /// </summary>
         public string SensorId { get; set; }
 
-        public virtual Sensor Sensor { get; set; }
+        public virtual Sensor1 Sensor { get; set; }
     }
 }
