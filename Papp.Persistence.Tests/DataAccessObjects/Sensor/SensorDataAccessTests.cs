@@ -20,16 +20,16 @@ public class SensorDataAccessTests
     {
         this.mockData = new List<Sensor> {
             new() {
-                Id = "sensor#1",
-                Type = new("029d6427-adf2-4746-a33f-cfc60a51e4e2")
+                SensorId = "sensor#1",
+                SensorTypeId = new("029d6427-adf2-4746-a33f-cfc60a51e4e2")
             },
             new() {
-                Id = "sensor#2",
-                Type = new("029d6427-adf2-4746-a33f-cfc60a51e4e2")
+                SensorId = "sensor#2",
+                SensorTypeId = new("029d6427-adf2-4746-a33f-cfc60a51e4e2")
             },
             new() {
-                Id = "sensor#3",
-                Type = new("cab12fe3-a366-4602-bafa-8a92a9cc53f9")
+                SensorId = "sensor#3",
+                SensorTypeId = new("cab12fe3-a366-4602-bafa-8a92a9cc53f9")
             }
         };
 

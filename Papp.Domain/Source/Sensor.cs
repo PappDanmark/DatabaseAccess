@@ -3,24 +3,26 @@ using System.Collections.Generic;
 
 namespace Papp.Domain
 {
-    /// <summary>
-    /// Table that contains all sensors.
-    /// </summary>
     public partial class Sensor
     {
         public Sensor()
         {
-            SensorBatteryUpdates = new HashSet<SensorBatteryUpdate>();
-            SensorInstalls = new HashSet<SensorInstall>();
-            SensorUpdates = new HashSet<SensorUpdate>();
+            SensorActionOccupieds = new HashSet<SensorActionOccupied>();
         }
 
-        public string Id { get; set; }
-        public Guid Type { get; set; }
+        public string SensorId { get; set; }
+        public DateTime InstallationTimestamp { get; set; }
+        public short? Battery { get; set; }
+        public bool? Occupied { get; set; }
+        public Guid? LastUpdatedBySensorAction { get; set; }
+        public DateTime? LastUpdatedTimestamp { get; set; }
+        public Guid InstalledAtParkingBoothId { get; set; }
+        public int InstallationDateTimeEpoch { get; set; }
+        public Guid SensorTypeId { get; set; }
 
-        public virtual SensorType TypeNavigation { get; set; }
-        public virtual ICollection<SensorBatteryUpdate> SensorBatteryUpdates { get; set; }
-        public virtual ICollection<SensorInstall> SensorInstalls { get; set; }
-        public virtual ICollection<SensorUpdate> SensorUpdates { get; set; }
+        public virtual ParkingBooth InstalledAtParkingBooth { get; set; }
+        public virtual SensorActionOccupied LastUpdatedBySensorActionNavigation { get; set; }
+        public virtual SensorType SensorType { get; set; }
+        public virtual ICollection<SensorActionOccupied> SensorActionOccupieds { get; set; }
     }
 }

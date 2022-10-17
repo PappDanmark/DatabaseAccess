@@ -4,7 +4,7 @@ using Papp.Persistence.Context;
 namespace Papp.Persistence.DataAccess;
 
 /// <inheritdoc/>
-public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTransaction0>, IParkingAreaTransactionDataAccess
+public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTransaction>, IParkingAreaTransactionDataAccess
 {
     private readonly PappDbContext DbContext;
 
@@ -26,9 +26,9 @@ public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTra
     }
 
     /// <inheritdoc/>
-    public ParkingAreaTransaction0? GetLastestByParkingAreaId(int id)
+    public ParkingAreaTransaction? GetLastestByParkingAreaId(int id)
     {
-        return this.DbContext.ParkingAreaTransaction0s
+        return this.DbContext.ParkingAreaTransactions
             .Where(e => e.ParkingAreaId.Equals(id))
             .OrderByDescending(e => e.Timestamp)
             .Take(1)

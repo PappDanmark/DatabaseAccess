@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Papp.Domain
 {
-    public partial class ParkingAreaTransaction6
+    public partial class ParkingAreaTransaction
     {
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
