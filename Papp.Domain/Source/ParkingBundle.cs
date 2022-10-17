@@ -1,20 +1,23 @@
-﻿using NpgsqlTypes;
+﻿using System;
+using System.Collections.Generic;
+using NpgsqlTypes;
 
-namespace Papp.Domain;
-
-public partial class ParkingBundle
+namespace Papp.Domain
 {
-    public ParkingBundle()
+    public partial class ParkingBundle
     {
-        ParkingBooths = new HashSet<ParkingBooth>();
+        public ParkingBundle()
+        {
+            ParkingBooths = new HashSet<ParkingBooth>();
+        }
+
+        public NpgsqlPoint Location { get; set; }
+        public Guid PoiId { get; set; }
+        public string Address { get; set; }
+        public string PappPoiId { get; set; }
+        public int Zip { get; set; }
+
+        public virtual ZipCode ZipNavigation { get; set; }
+        public virtual ICollection<ParkingBooth> ParkingBooths { get; set; }
     }
-
-    public NpgsqlPoint Location { get; set; }
-    public Guid PoiId { get; set; }
-    public string Address { get; set; }
-    public string PappPoiId { get; set; }
-    public int Zip { get; set; }
-
-    public virtual ZipCode ZipNavigation { get; set; }
-    public virtual ICollection<ParkingBooth> ParkingBooths { get; set; }
 }
