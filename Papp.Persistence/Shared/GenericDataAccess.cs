@@ -24,8 +24,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
 
     private IQueryable<TEntity> GetDbSetQueryable(
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         var query = tracking ? this.DbSet : this.DbSet.AsNoTracking();
@@ -49,8 +49,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual TEntity? GetFirstOrDefault(
         Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).FirstOrDefault();
@@ -60,8 +60,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual TResult? GetFirstOrDefault<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).FirstOrDefault();
@@ -70,8 +70,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual async Task<TEntity?> GetFirstOrDefaultAsync(
         Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return await this.GetDbSetQueryable(predicate, orderBy, include, tracking).FirstOrDefaultAsync();
@@ -81,8 +81,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual async Task<TResult?> GetFirstOrDefaultAsync<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return await this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).FirstOrDefaultAsync();
@@ -91,8 +91,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual IEnumerable<TEntity> GetAllAsEnumerable(
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).AsEnumerable();
@@ -102,8 +102,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual IEnumerable<TResult> GetAllAsEnumerable<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).AsEnumerable();
@@ -112,8 +112,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual IAsyncEnumerable<TEntity> GetAllAsAsyncEnumerable(
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).AsAsyncEnumerable();
@@ -123,8 +123,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual IAsyncEnumerable<TResult> GetAllAsAsyncEnumerable<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).AsAsyncEnumerable();
@@ -133,8 +133,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual ICollection<TEntity> GetAllAsCollection(
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).ToList();
@@ -144,8 +144,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual ICollection<TResult> GetAllAsCollection<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).ToList();
@@ -154,8 +154,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     /// <inheritdoc/>
     public virtual async Task<ICollection<TEntity>> GetAllAsCollectionAsync(
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
     {
         return await this.GetDbSetQueryable(predicate, orderBy, include, tracking).ToListAsync();
@@ -165,8 +165,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual async Task<ICollection<TResult>> GetAllAsCollectionAsync<TResult>(
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
     {
         return await this.GetDbSetQueryable(predicate, orderBy, include, tracking).Select(selector).ToListAsync();
