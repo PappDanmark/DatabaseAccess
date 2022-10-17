@@ -1,17 +1,21 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-/// <summary>
-/// Contains all connector types.
-/// </summary>
-public partial class ChargerConnector
+namespace Papp.Domain
 {
-    public ChargerConnector()
+    /// <summary>
+    /// Contains all connector types.
+    /// </summary>
+    public partial class ChargerConnector
     {
-        ChargerTypes = new HashSet<ChargerType>();
+        public ChargerConnector()
+        {
+            ChargerTypes = new HashSet<ChargerType>();
+        }
+
+        public short Id { get; set; }
+        public string Name { get; set; }
+
+        public virtual ICollection<ChargerType> ChargerTypes { get; set; }
     }
-
-    public short Id { get; set; }
-    public string Name { get; set; }
-
-    public virtual ICollection<ChargerType> ChargerTypes { get; set; }
 }

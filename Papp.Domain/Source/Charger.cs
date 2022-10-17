@@ -1,22 +1,26 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Charger
+namespace Papp.Domain
 {
-    public Charger()
+    public partial class Charger
     {
-        Booths = new HashSet<Booth>();
+        public Charger()
+        {
+            Booths = new HashSet<Booth>();
+        }
+
+        public Guid Id { get; set; }
+        /// <summary>
+        /// References the charger type.
+        /// </summary>
+        public int ChargerType { get; set; }
+        /// <summary>
+        /// The operators ID of this charging station.
+        /// </summary>
+        public string OperatorId { get; set; }
+
+        public virtual ChargerType ChargerTypeNavigation { get; set; }
+        public virtual ICollection<Booth> Booths { get; set; }
     }
-
-    public Guid Id { get; set; }
-    /// <summary>
-    /// References the charger type.
-    /// </summary>
-    public int ChargerType { get; set; }
-    /// <summary>
-    /// The operators ID of this charging station.
-    /// </summary>
-    public string OperatorId { get; set; }
-
-    public virtual ChargerType ChargerTypeNavigation { get; set; }
-    public virtual ICollection<Booth> Booths { get; set; }
 }

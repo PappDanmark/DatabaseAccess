@@ -1,16 +1,20 @@
-﻿namespace Papp.Domain;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class ParkingBooth
+namespace Papp.Domain
 {
-    public ParkingBooth()
+    public partial class ParkingBooth
     {
-        Sensor1s = new HashSet<Sensor1>();
+        public ParkingBooth()
+        {
+            Sensors = new HashSet<Sensor>();
+        }
+
+        public Guid ParkingBoothId { get; set; }
+        public short BoothNumber { get; set; }
+        public Guid? PoiId { get; set; }
+
+        public virtual ParkingBundle Poi { get; set; }
+        public virtual ICollection<Sensor> Sensors { get; set; }
     }
-
-    public Guid ParkingBoothId { get; set; }
-    public short BoothNumber { get; set; }
-    public Guid? PoiId { get; set; }
-
-    public virtual ParkingBundle Poi { get; set; }
-    public virtual ICollection<Sensor1> Sensor1s { get; set; }
 }
