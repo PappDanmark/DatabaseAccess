@@ -25,8 +25,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// Null if there's no result data.
     /// </returns>
     TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate,
-                               Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                               Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                               Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                               Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                bool tracking = false);
 
     /// <summary>
@@ -43,8 +43,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// </returns>
     TResult? GetFirstOrDefault<TResult>(Expression<Func<TEntity, TResult>> selector,
                                         Expression<Func<TEntity, bool>> predicate,
-                                        Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                        Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                         bool tracking = false) where TResult : class;
 
     /// <summary>
@@ -59,8 +59,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// Null if there's no result data.
     /// </returns>
     Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
-                                          Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                          Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                          Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                           bool tracking = false);
 
     /// <summary>
@@ -77,8 +77,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// </returns>
     Task<TResult?> GetFirstOrDefaultAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
                                                    Expression<Func<TEntity, bool>> predicate,
-                                                   Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                   Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                   Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                   Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                    bool tracking = false) where TResult : class;
 
     /// <summary>
@@ -90,8 +90,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <param name="tracking"><c>true</c> to enable change tracking else defaults to <c>false</c>.</param>
     /// <returns>An <see cref="IEnumerable{TEntity}"/> with any matching entities or empty if no entities were found.</returns>
     IEnumerable<TEntity> GetAllAsEnumerable(Expression<Func<TEntity, bool>>? predicate = null,
-                                            Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                            Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                             bool tracking = false);
 
     /// <summary>
@@ -105,8 +105,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <returns>An <see cref="IEnumerable{TResult}"/> with any matching entities or empty if no entities were found.</returns>
     IEnumerable<TResult> GetAllAsEnumerable<TResult>(Expression<Func<TEntity, TResult>> selector,
                                                      Expression<Func<TEntity, bool>>? predicate = null,
-                                                     Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                     Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                      bool tracking = false) where TResult : class;
 
     /// <summary>
@@ -118,8 +118,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <param name="tracking"><c>true</c> to enable change tracking else defaults to <c>false</c>.</param>
     /// <returns>An <see cref="IAsyncEnumerable{TEntity}"/> with any matching entities or empty if no entities were found.</returns>
     IAsyncEnumerable<TEntity> GetAllAsAsyncEnumerable(Expression<Func<TEntity, bool>>? predicate = null,
-                                                      Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                      Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                      Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                       bool tracking = false);
 
     /// <summary>
@@ -133,8 +133,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <returns>An <see cref="IAsyncEnumerable{TResult}"/> with any matching entities or empty if no entities were found.</returns>
     IAsyncEnumerable<TResult> GetAllAsAsyncEnumerable<TResult>(Expression<Func<TEntity, TResult>> selector,
                                                                Expression<Func<TEntity, bool>>? predicate = null,
-                                                               Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                               Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                               Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                               Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                                bool tracking = false) where TResult : class;
 
     /// <summary>
@@ -146,8 +146,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <param name="tracking"><c>true</c> to enable change tracking else defaults to <c>false</c>.</param>
     /// <returns>An <see cref="ICollection{TEntity}"/> with any matching entities or empty if no entities were found.</returns>
     ICollection<TEntity> GetAllAsCollection(Expression<Func<TEntity, bool>>? predicate = null,
-                                            Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                            Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                             bool tracking = false);
 
     /// <summary>
@@ -161,8 +161,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <returns>An <see cref="ICollection{TResult}"/> with any matching entities or empty if no entities were found.</returns>
     ICollection<TResult> GetAllAsCollection<TResult>(Expression<Func<TEntity, TResult>> selector,
                                                      Expression<Func<TEntity, bool>>? predicate = null,
-                                                     Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                     Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                      bool tracking = false) where TResult : class;
 
     /// <summary>
@@ -174,8 +174,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <param name="tracking"><c>true</c> to enable change tracking else defaults to <c>false</c>.</param>
     /// <returns>An <see cref="ICollection{TEntity}"/> with any matching entities or empty if no entities were found.</returns>
     Task<ICollection<TEntity>> GetAllAsCollectionAsync(Expression<Func<TEntity, bool>>? predicate = null,
-                                                       Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                       Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                       Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                        bool tracking = false);
 
     /// <summary>
@@ -189,8 +189,8 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// <returns>An <see cref="ICollection{TResult}"/> with any matching entities or empty if no entities were found.</returns>
     Task<ICollection<TResult>> GetAllAsCollectionAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
                                                                 Expression<Func<TEntity, bool>>? predicate = null,
-                                                                Func<IQueryable<TEntity>?, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                                Func<IQueryable<TEntity>?, IIncludableQueryable<TEntity, object>>? include = null,
+                                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                                Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                                 bool tracking = false) where TResult : class;
 
     #endregion

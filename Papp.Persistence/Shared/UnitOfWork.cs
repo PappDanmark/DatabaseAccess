@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Papp.Persistence.DataAccess;
 
-public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDataAccessFactory where TContext : DbContext
+public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
 {
     /// <inheritdoc/>
     public TContext DbContext { get; }
