@@ -525,6 +525,22 @@ namespace Papp.Persistence.Context
                     .HasColumnType("character varying")
                     .HasColumnName("id");
 
+                entity.Property(e => e.LatestBattery)
+                    .HasColumnName("latest_battery")
+                    .HasComment("The latest battery update. If null, none has occurred or DB error.");
+
+                entity.Property(e => e.LatestBatteryTimestamp)
+                    .HasColumnName("latest_battery_timestamp")
+                    .HasComment("The time of the latest battery update. If null, none has occurred or DB error.");
+
+                entity.Property(e => e.LatestOccupied)
+                    .HasColumnName("latest_occupied")
+                    .HasComment("Latest occupied update. If null, then none has been recorded or DB error.");
+
+                entity.Property(e => e.LatestOccupiedTimestamp)
+                    .HasColumnName("latest_occupied_timestamp")
+                    .HasComment("The time of the latest occupied status update. If null, none has occurred or DB error.");
+
                 entity.Property(e => e.Type).HasColumnName("type");
 
                 entity.HasOne(d => d.TypeNavigation)
@@ -581,26 +597,22 @@ namespace Papp.Persistence.Context
 
             modelBuilder.Entity<SensorBatteryUpdate>(entity =>
             {
+                entity.HasKey(e => new { e.Id, e.SensorId })
+                    .HasName("sensor_battery_update_pkey");
+
                 entity.ToTable("sensor_battery_update");
 
-                entity.HasComment("Table that contains all battery updates.");
-
-                entity.HasIndex(e => e.Id, "sensor_battery_update_id_uindex")
-                    .IsUnique();
+                entity.HasIndex(e => e.SensorId, "sensor_battery_update_sensor_id_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("uuid_generate_v4()");
 
-                entity.Property(e => e.Percent)
-                    .HasColumnName("percent")
-                    .HasComment("Percent battery left.");
-
                 entity.Property(e => e.SensorId)
-                    .IsRequired()
                     .HasColumnType("character varying")
-                    .HasColumnName("sensor_id")
-                    .HasComment("Reference to sensor table.");
+                    .HasColumnName("sensor_id");
+
+                entity.Property(e => e.Battery).HasColumnName("battery");
 
                 entity.Property(e => e.Ts).HasColumnName("ts");
 
@@ -608,7 +620,7 @@ namespace Papp.Persistence.Context
                     .WithMany(p => p.SensorBatteryUpdates)
                     .HasForeignKey(d => d.SensorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("sensor_id");
+                    .HasConstraintName("sensor_battery_update_new_sensor_id_fkey");
             });
 
             modelBuilder.Entity<SensorInstall>(entity =>
@@ -682,21 +694,22 @@ namespace Papp.Persistence.Context
 
             modelBuilder.Entity<SensorUpdate>(entity =>
             {
+                entity.HasKey(e => new { e.Id, e.SensorId })
+                    .HasName("sensor_update_pkey");
+
                 entity.ToTable("sensor_update");
 
-                entity.HasIndex(e => e.Id, "sensor_update_id_uindex")
-                    .IsUnique();
+                entity.HasIndex(e => e.SensorId, "sensor_update_sensor_id_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("uuid_generate_v4()");
 
-                entity.Property(e => e.Occupied).HasColumnName("occupied");
-
                 entity.Property(e => e.SensorId)
-                    .IsRequired()
                     .HasColumnType("character varying")
                     .HasColumnName("sensor_id");
+
+                entity.Property(e => e.Occupied).HasColumnName("occupied");
 
                 entity.Property(e => e.Ts).HasColumnName("ts");
 
@@ -704,7 +717,7 @@ namespace Papp.Persistence.Context
                     .WithMany(p => p.SensorUpdates)
                     .HasForeignKey(d => d.SensorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("sensor_id");
+                    .HasConstraintName("sensor_update_new_sensor_id_fkey");
             });
 
             modelBuilder.Entity<ZipCode>(entity =>
