@@ -17,6 +17,22 @@ namespace Papp.Domain
 
         public string Id { get; set; }
         public Guid Type { get; set; }
+        /// <summary>
+        /// Latest occupied update. If null, then none has been recorded or DB error.
+        /// </summary>
+        public bool? LatestOccupied { get; set; }
+        /// <summary>
+        /// The time of the latest occupied status update. If null, none has occurred or DB error.
+        /// </summary>
+        public DateTime? LatestOccupiedTimestamp { get; set; }
+        /// <summary>
+        /// The latest battery update. If null, none has occurred or DB error.
+        /// </summary>
+        public short? LatestBattery { get; set; }
+        /// <summary>
+        /// The time of the latest battery update. If null, none has occurred or DB error.
+        /// </summary>
+        public DateTime? LatestBatteryTimestamp { get; set; }
 
         public virtual SensorType TypeNavigation { get; set; }
         public virtual ICollection<SensorBatteryUpdate> SensorBatteryUpdates { get; set; }
