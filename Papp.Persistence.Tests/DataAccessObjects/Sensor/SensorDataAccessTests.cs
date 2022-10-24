@@ -41,14 +41,4 @@ public class SensorDataAccessTests
 
         this.sut = new SensorDataAccess(mockContext.Object);
     }
-
-    [DataTestMethod]
-    [TestCategory(TestConstants.UnitTest)]
-    [DataRow(false, "sensor#104")]
-    [DataRow(true, "sensor#1")]
-    public async Task Exists(bool expected, string id)
-    {
-        bool exists = await sut.ExistsAsync(id);
-        Assert.AreEqual(expected, exists);
-    }
 }
