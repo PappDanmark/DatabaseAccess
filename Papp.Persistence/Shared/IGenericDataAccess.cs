@@ -24,10 +24,10 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// An <see cref="IPagedList{TEntity}"/> that contains elements that satisfy the condition specified by <paramref name="predicate"/>.
     /// Null if there's no result data.
     /// </returns>
-    TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate,
-                               Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                               Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-                               bool tracking = false);
+    TEntity? FirstOrDefault(Expression<Func<TEntity, bool>>? predicate = null,
+                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                            bool tracking = false);
 
     /// <summary>
     /// Gets the first or default entity with projection based on a predicate, orderby delegate and include delegate.
@@ -41,11 +41,11 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// An <see cref="IPagedList{TEntity}"/> that contains elements that satisfy the condition specified by <paramref name="predicate"/>.
     /// Null if there's no result data.
     /// </returns>
-    TResult? GetFirstOrDefault<TResult>(Expression<Func<TEntity, TResult>> selector,
-                                        Expression<Func<TEntity, bool>> predicate,
-                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-                                        bool tracking = false) where TResult : class;
+    TResult? FirstOrDefault<TResult>(Expression<Func<TEntity, TResult>> selector,
+                                     Expression<Func<TEntity, bool>>? predicate = null,
+                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                     bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets asynchronously the first or default entity based on a predicate, orderby delegate and include delegate.
@@ -58,10 +58,10 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// An <see cref="IPagedList{TEntity}"/> that contains elements that satisfy the condition specified by <paramref name="predicate"/>.
     /// Null if there's no result data.
     /// </returns>
-    Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
-                                          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                          Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-                                          bool tracking = false);
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>>? predicate = null,
+                                       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                       Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                       bool tracking = false);
 
     /// <summary>
     /// Gets asynchronously the first or default entity with projection based on a predicate, orderby delegate and include delegate.
@@ -75,11 +75,11 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     /// An <see cref="IPagedList{TEntity}"/> that contains elements that satisfy the condition specified by <paramref name="predicate"/>.
     /// Null if there's no result data.
     /// </returns>
-    Task<TResult?> GetFirstOrDefaultAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
-                                                   Expression<Func<TEntity, bool>> predicate,
-                                                   Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-                                                   Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-                                                   bool tracking = false) where TResult : class;
+    Task<TResult?> FirstOrDefaultAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+                                                Expression<Func<TEntity, bool>>? predicate = null,
+                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                                bool tracking = false) where TResult : class;
 
     /// <summary>
     /// Gets all the entities based on a predicate, orderby delegate and include delegate.
