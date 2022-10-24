@@ -213,4 +213,20 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     }
 
     #endregion
+
+    #region Other
+
+    /// <inheritdoc/>
+    public virtual bool Exists(Expression<Func<TEntity, bool>>? predicate = null)
+    {
+        return predicate == null ? this.DbSet.Any() : this.DbSet.Any(predicate);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>>? predicate = null)
+    {
+        return predicate == null ? await this.DbSet.AnyAsync() : await this.DbSet.AnyAsync(predicate);
+    }
+
+    #endregion
 }

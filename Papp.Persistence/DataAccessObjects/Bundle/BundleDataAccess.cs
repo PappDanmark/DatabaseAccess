@@ -17,11 +17,4 @@ public class BundleDataAccess : GenericDataAccess<Bundle>, IBundleDataAccess
     {
         this.DbContext = unitOfWork.DbContext;
     }
-
-    /// <inheritdoc/>
-    public async Task<bool> ExistsAsync(int id)
-    {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
-        return entity != null;
-    }
 }

@@ -17,11 +17,4 @@ public class SensorDataAccess : GenericDataAccess<Sensor>, ISensorDataAccess
     {
         this.DbContext = unitOfWork.DbContext;
     }
-
-    /// <inheritdoc/>
-    public async Task<bool> ExistsAsync(string id)
-    {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.SensorId.Equals(id));
-        return entity != null;
-    }
 }

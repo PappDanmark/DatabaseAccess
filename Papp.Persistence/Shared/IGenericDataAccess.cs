@@ -237,4 +237,31 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
     Task AddRangeAsync(IEnumerable<TEntity> entities);
 
     #endregion
+
+    // Other methods related to miscellaneous database operations:
+    #region Other
+
+    /// <summary>
+    /// Checks if any entity exists in the database by the given predicate
+    /// or if the database table has any entities at all.
+    /// </summary>
+    /// <param name="predicate">Predicate expression based on which to check.</param>
+    /// <returns>
+    /// Whether or not a matching entity could be found or if the predicate 
+    /// is null whether the database table contains any entities at all.
+    /// </returns>
+    bool Exists(Expression<Func<TEntity, bool>>? predicate = null);
+
+    /// <summary>
+    /// Checks asynchronously if any entity exists in the database by the given predicate
+    /// or if the database table has any entities at all.
+    /// </summary>
+    /// <param name="predicate">Predicate expression based on which to check.</param>
+    /// <returns>
+    /// Whether or not a matching entity could be found or if the predicate 
+    /// is null whether the database table contains any entities at all.
+    /// </returns>
+    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>>? predicate = null);
+
+    #endregion
 }
