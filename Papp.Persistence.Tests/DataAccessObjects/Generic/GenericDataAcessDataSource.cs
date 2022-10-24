@@ -36,4 +36,13 @@ public class GenericDataAccessDataSource
         { new Booth[] {PappDbDataSet.Booths[0]}, e => e.BoothNumber.Equals(1), null, null, false },
         { Array.Empty<Booth>(), e => e.BoothNumber.Equals(-3), null, null, false }
     };
+
+    public static TheoryData<bool, Expression<Func<Booth, bool>>?> Exists => new()
+    {
+        { true, null },
+        { false, e => false },
+        { true, e => true },
+        { false, e => e.Id.ToString().Equals("") },
+        { true, e => e.BoothNumber.Equals(2) }
+    };
 }

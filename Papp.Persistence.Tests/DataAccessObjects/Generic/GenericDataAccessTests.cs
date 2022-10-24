@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using Xunit;
 using Papp.Persistence.Tests.Data;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Linq;
 
 namespace Papp.Persistence.Tests;
 
@@ -193,6 +194,33 @@ public class GenericDataAccessTests
 
         // Verify
         this.mockDbSet.Verify(c => c.AddRangeAsync(It.IsAny<IEnumerable<Booth>>(), default), Times.Once);
+    }
+
+    #endregion
+
+    // All tests related to Create methods:
+    #region Other
+
+    [Theory]
+    [MemberData(nameof(GenericDataAccessDataSource.Exists), MemberType = typeof(GenericDataAccessDataSource))]
+    public void Exists(bool expected, Expression<Func<Booth, bool>>? predicate)
+    {
+        // Run SUT
+        bool actual = sut.Exists(predicate);
+
+        // Verify
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [MemberData(nameof(GenericDataAccessDataSource.Exists), MemberType = typeof(GenericDataAccessDataSource))]
+    public async Task ExistsAsync(bool expected, Expression<Func<Booth, bool>>? predicate)
+    {
+        // Run SUT
+        bool actual = await sut.ExistsAsync(predicate);
+
+        // Verify
+        Assert.Equal(expected, actual);
     }
 
     #endregion
