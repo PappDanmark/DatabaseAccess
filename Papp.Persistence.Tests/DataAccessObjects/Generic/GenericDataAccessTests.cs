@@ -7,6 +7,7 @@ using Papp.Persistence.Context;
 using System.Linq.Expressions;
 using Xunit;
 using Papp.Persistence.Tests.Data;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Papp.Persistence.Tests;
 
@@ -32,11 +33,17 @@ public class GenericDataAccessTests
     #region Read
 
     [Theory]
-    [MemberData(nameof(GenericDataAccessDataSource.GetFirstOrDefault), MemberType = typeof(GenericDataAccessDataSource))]
-    public void GetFirstOrDefault(Booth? expected, Expression<Func<Booth, bool>> filter, Func<IQueryable<Booth>?, IOrderedQueryable<Booth>>? orderBy, bool tracking)
+    [MemberData(nameof(GenericDataAccessDataSource.FirstOrDefault), MemberType = typeof(GenericDataAccessDataSource))]
+    public void FirstOrDefault(
+        Booth? expected,
+        Expression<Func<Booth, bool>>? predicate,
+        Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy,
+        Func<IQueryable<Booth>, IIncludableQueryable<Booth, object>>? include,
+        bool tracking
+    )
     {
         // Run SUT
-        Booth? entity = sut.GetFirstOrDefault(filter, orderBy, null, tracking);
+        Booth? entity = sut.FirstOrDefault(predicate, orderBy, include, tracking);
 
         // Verify
         if (expected == null)
@@ -51,11 +58,17 @@ public class GenericDataAccessTests
     }
 
     [Theory]
-    [MemberData(nameof(GenericDataAccessDataSource.GetFirstOrDefaultAsync), MemberType = typeof(GenericDataAccessDataSource))]
-    public async Task GetFirstOrDefaultAsync(Booth? expected, Expression<Func<Booth, bool>> filter, Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy, bool tracking)
+    [MemberData(nameof(GenericDataAccessDataSource.FirstOrDefault), MemberType = typeof(GenericDataAccessDataSource))]
+    public async Task FirstOrDefaultAsync(
+        Booth? expected,
+        Expression<Func<Booth, bool>>? predicate,
+        Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy,
+        Func<IQueryable<Booth>, IIncludableQueryable<Booth, object>>? include,
+        bool tracking
+    )
     {
         // Run SUT
-        Booth? entity = await sut.GetFirstOrDefaultAsync(filter, orderBy, null, tracking);
+        Booth? entity = await sut.FirstOrDefaultAsync(predicate, orderBy, include, tracking);
 
         // Verify
         if (expected == null)
@@ -71,16 +84,22 @@ public class GenericDataAccessTests
 
     [Theory]
     [MemberData(nameof(GenericDataAccessDataSource.GetAllAsEnumerable), MemberType = typeof(GenericDataAccessDataSource))]
-    public void GetAllAsEnumerable(ICollection<Booth> expected, Expression<Func<Booth, bool>>? filter, Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy, bool tracking)
+    public void GetAllAsEnumerable(
+        IEnumerable<Booth> expected,
+        Expression<Func<Booth, bool>>? predicate,
+        Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy,
+        Func<IQueryable<Booth>, IIncludableQueryable<Booth, object>>? include,
+        bool tracking = false
+    )
     {
         // Run SUT
-        var list = sut.GetAllAsEnumerable(filter);
+        var list = sut.GetAllAsEnumerable(predicate, orderBy, include, tracking);
 
         // Verify
-        Assert.Equal(expected.Count, list.Count());
+        Assert.Equal(expected.Count(), list.Count());
         // If the retrieved subset of entities matches the expected number of entities,
         // proceed to compare each one, making sure the retrieved list is correct.
-        for (int i = 0; i < expected.Count; i++)
+        for (int i = 0; i < expected.Count(); i++)
         {
             Assert.Equal(expected.ElementAt(i), list.ElementAt(i));
         }
@@ -88,10 +107,16 @@ public class GenericDataAccessTests
 
     [Theory]
     [MemberData(nameof(GenericDataAccessDataSource.GetAllAsCollection), MemberType = typeof(GenericDataAccessDataSource))]
-    public void GetAllAsCollection(ICollection<Booth> expected, Expression<Func<Booth, bool>>? filter, Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy, bool tracking)
+    public void GetAllAsCollection(
+        ICollection<Booth> expected,
+        Expression<Func<Booth, bool>>? predicate,
+        Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy,
+        Func<IQueryable<Booth>, IIncludableQueryable<Booth, object>>? include,
+        bool tracking = false
+    )
     {
         // Run SUT
-        var list = sut.GetAllAsCollection(filter);
+        var list = sut.GetAllAsCollection(predicate, orderBy, include, tracking);
 
         // Verify
         Assert.Equal(expected.Count, list.Count);
@@ -104,11 +129,17 @@ public class GenericDataAccessTests
     }
 
     [Theory]
-    [MemberData(nameof(GenericDataAccessDataSource.GetAllAsCollectionAsync), MemberType = typeof(GenericDataAccessDataSource))]
-    public async Task GetAllAsCollectionAsync(ICollection<Booth> expected, Expression<Func<Booth, bool>>? filter, Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy, bool tracking)
+    [MemberData(nameof(GenericDataAccessDataSource.GetAllAsCollection), MemberType = typeof(GenericDataAccessDataSource))]
+    public async Task GetAllAsCollectionAsync(
+        ICollection<Booth> expected,
+        Expression<Func<Booth, bool>>? predicate,
+        Func<IQueryable<Booth>, IOrderedQueryable<Booth>>? orderBy,
+        Func<IQueryable<Booth>, IIncludableQueryable<Booth, object>>? include,
+        bool tracking = false
+    )
     {
         // Run SUT
-        var list = await sut.GetAllAsCollectionAsync(filter);
+        var list = await sut.GetAllAsCollectionAsync(predicate, orderBy, include, tracking);
 
         // Verify
         Assert.Equal(expected.Count, list.Count);
