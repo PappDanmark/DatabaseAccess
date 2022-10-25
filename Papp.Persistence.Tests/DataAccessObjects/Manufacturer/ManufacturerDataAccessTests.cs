@@ -41,14 +41,4 @@ public class ManufacturerDataAccessTests
 
         this.sut = new ManufacturerDataAccess(mockContext.Object);
     }
-
-    [DataTestMethod]
-    [TestCategory(TestConstants.UnitTest)]
-    [DataRow(false, -2)]
-    [DataRow(true, 1)]
-    public async Task Exists(bool expected, int id)
-    {
-        bool exists = await sut.ExistsAsync((short) id);
-        Assert.AreEqual(expected, exists);
-    }
 }

@@ -44,15 +44,4 @@ public class BundleDataAccessTests
 
         this.sut = new BundleDataAccess(mockContext.Object);
     }
-
-    [DataTestMethod]
-    [TestCategory(TestConstants.UnitTest)]
-    [DataRow(false, -5)]
-    [DataRow(false, 0)]
-    [DataRow(true, 2)]
-    public async Task Exists(bool expected, int id)
-    {
-        bool exists = await sut.ExistsAsync(id);
-        Assert.AreEqual(expected, exists);
-    }
 }

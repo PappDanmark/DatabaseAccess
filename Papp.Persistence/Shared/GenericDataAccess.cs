@@ -47,8 +47,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     }
 
     /// <inheritdoc/>
-    public virtual TEntity? GetFirstOrDefault(
-        Expression<Func<TEntity, bool>> predicate,
+    public virtual TEntity? FirstOrDefault(
+        Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
@@ -57,9 +57,9 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     }
 
     /// <inheritdoc/>
-    public virtual TResult? GetFirstOrDefault<TResult>(
+    public virtual TResult? FirstOrDefault<TResult>(
         Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
@@ -68,8 +68,8 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     }
 
     /// <inheritdoc/>
-    public virtual async Task<TEntity?> GetFirstOrDefaultAsync(
-        Expression<Func<TEntity, bool>> predicate,
+    public virtual async Task<TEntity?> FirstOrDefaultAsync(
+        Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false)
@@ -78,9 +78,9 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     }
 
     /// <inheritdoc/>
-    public virtual async Task<TResult?> GetFirstOrDefaultAsync<TResult>(
+    public virtual async Task<TResult?> FirstOrDefaultAsync<TResult>(
         Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         bool tracking = false) where TResult : class
@@ -210,6 +210,22 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
     {
         await this.DbSet.AddRangeAsync(entities);
+    }
+
+    #endregion
+
+    #region Other
+
+    /// <inheritdoc/>
+    public virtual bool Exists(Expression<Func<TEntity, bool>>? predicate = null)
+    {
+        return predicate == null ? this.DbSet.Any() : this.DbSet.Any(predicate);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>>? predicate = null)
+    {
+        return predicate == null ? await this.DbSet.AnyAsync() : await this.DbSet.AnyAsync(predicate);
     }
 
     #endregion

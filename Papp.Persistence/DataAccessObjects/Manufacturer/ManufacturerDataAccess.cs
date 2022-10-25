@@ -17,11 +17,4 @@ public class ManufacturerDataAccess : GenericDataAccess<Manufacturer>, IManufact
     {
         this.DbContext = unitOfWork.DbContext;
     }
-
-    /// <inheritdoc/>
-    public async Task<bool> ExistsAsync(short id)
-    {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
-        return entity != null;
-    }
 }
