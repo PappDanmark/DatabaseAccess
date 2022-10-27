@@ -27,4 +27,27 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             .Take(1)
             .FirstOrDefault();
     }
+
+    /// <inheritdoc/>
+    public IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp)
+    {
+        return this.DbContext.SensorInstalls
+        .Where(e =>
+            // BoothIds have to match.
+            e.Booth == boothId &&
+            // Either uninstall TS is null, or uninstall TS is after request TS.
+            (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
+        )
+        .AsEnumerable()
+        .SelectMany(e => {
+            // For each of the appropriate sensor install, query it's sensor updates.
+            DateTime beginTimestamp = e.InstallTs.CompareTo(timestamp) > 0 ? e.InstallTs : timestamp;
+
+            return this.DbContext.SensorUpdates.Where(x =>
+                x.SensorId == e.SensorId &&
+                x.Ts.CompareTo(beginTimestamp) > 0 &&
+                x.Ts.CompareTo(e.UninstallTs ?? DateTime.UtcNow) < 0
+            ).AsEnumerable();
+        });
+    }
 }
