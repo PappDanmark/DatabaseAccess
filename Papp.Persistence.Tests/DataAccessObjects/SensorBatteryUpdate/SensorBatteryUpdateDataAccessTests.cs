@@ -21,17 +21,14 @@ public class SensorBatteryUpdateDataAccessTests
         this.mockData = new List<SensorBatteryUpdate> {
             new() {
                 Id = new("dcd6a274-b7fb-41aa-b099-020296b70e5a"),
-                Percent = 10.25F,
                 SensorId = "sbu1"
             },
             new() {
                 Id = new("029d6427-adf2-4746-a33f-cfc60a51e4e2"),
-                Percent = 10.25F,
                 SensorId = "sbu2"
             },
             new() {
                 Id = new("cab12fe3-a366-4602-bafa-8a92a9cc53f9"),
-                Percent = 8.50F,
                 SensorId = "sbu3"
             }
         };

@@ -19,13 +19,6 @@ public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTra
     }
 
     /// <inheritdoc/>
-    public async Task<bool> ExistsAsync(Guid id)
-    {
-        var entity = await base.GetFirstOrDefaultAsync(e => e.Id.Equals(id));
-        return entity != null;
-    }
-
-    /// <inheritdoc/>
     public ParkingAreaTransaction? GetLastestByParkingAreaId(int id)
     {
         return this.DbContext.ParkingAreaTransactions

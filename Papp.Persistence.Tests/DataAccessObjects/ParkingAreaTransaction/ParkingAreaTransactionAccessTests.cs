@@ -54,14 +54,4 @@ public class ParkingAreaTransactionDataAccessTests
         // Verify
         this.mockParkingAreaTransactionDbSet.Verify(c => c.AddAsync(It.IsAny<ParkingAreaTransaction>(), default), Times.Once);
     }
-
-    [DataTestMethod]
-    [TestCategory(TestConstants.UnitTest)]
-    [DataRow(false, "129d6427-adf2-4746-a33f-cfc60a51e4e2")]
-    [DataRow(true, "029d6427-adf2-4746-a33f-cfc60a51e4e2")]
-    public async Task Exists(bool expected, string id)
-    {
-        bool exists = await sut.ExistsAsync(new Guid(id));
-        Assert.AreEqual(expected, exists);
-    }
 }

@@ -7,10 +7,4 @@ namespace Papp.Persistence.DataAccess;
 /// </summary>
 public interface ISensorDataAccess : IGenericDataAccess<Sensor>
 {
-    /// <summary>
-    /// Checks asynchronously if a Sensor exists in the DB by the given id.
-    /// </summary>
-    /// <param name="id">An id to check for.</param>
-    /// <returns>Whether or not a matching id Sensor could be found.</returns>
-    Task<bool> ExistsAsync(string id);
 }

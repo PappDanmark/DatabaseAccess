@@ -7,10 +7,4 @@ namespace Papp.Persistence.DataAccess;
 /// </summary>
 public interface IOperatorDataAccess : IGenericDataAccess<Operator>
 {
-    /// <summary>
-    /// Checks asynchronously if a Operator exists in the DB by the given id.
-    /// </summary>
-    /// <param name="id">An id to check for.</param>
-    /// <returns>Whether or not a matching id Operator could be found.</returns>
-    Task<bool> ExistsAsync(short id);
 }
