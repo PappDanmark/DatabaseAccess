@@ -38,7 +38,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             // Either uninstall TS is null, or uninstall TS is after request TS.
             (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
         )
-        .AsEnumerable()
+        .ToList()
         .SelectMany(e => {
             // For each of the appropriate sensor install, query it's sensor updates.
             DateTime beginTimestamp = e.InstallTs.CompareTo(timestamp) > 0 ? e.InstallTs : timestamp;
