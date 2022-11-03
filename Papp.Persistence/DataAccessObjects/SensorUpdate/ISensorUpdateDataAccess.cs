@@ -22,11 +22,12 @@ public interface ISensorUpdateDataAccess : IGenericDataAccess<SensorUpdate>
     IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp);
 
     /// <summary>
-    /// Retrieves all Sensor Updates of all Sensor Installs of a given Bundle id, until the provided timestamp. 
-    /// Includes the last Sensor Install that crosses the provided timestamp.
+    /// Retrieves all Sensor Updates of all Sensor Installs, of a given Bundle id, since the provided timestamp. 
+    /// Includes updates from the last Sensor Install that crosses the provided timestamp.
     /// </summary>
     /// <param name="boothId">The id of the Booth from which to get the updates.</param>
     /// <param name="timestamp">The point of time which to detect the last Sensor Install which to take the updates from.</param>
+    /// <param name="withBoothId">Whether to overwrite the Sensor Update id with the id of the Booth from which the update came from.</param>
     /// <returns>A list of mathching Sensor Updates.</returns>
-    Task<IList<SensorUpdate>> GetAllByBundleIdOfSensorInstallsSinceAsync(int bundleId, DateTime timestamp);
+    Task<IEnumerable<SensorUpdate>> GetAllByBundleIdOfSensorInstallsSinceAsync(int bundleId, DateTime timestamp, bool withBoothId = false);
 }

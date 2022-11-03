@@ -29,6 +29,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             .FirstOrDefault();
     }
 
+    /// TODO: Make method async.
     /// <inheritdoc/>
     public IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp)
     {
@@ -53,13 +54,13 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
     }
 
     /// <inheritdoc/>
-    public async Task<IList<SensorUpdate>> GetAllByBundleIdOfSensorInstallsSinceAsync(int bundleId, DateTime timestamp)
+    public async Task<IEnumerable<SensorUpdate>> GetAllByBundleIdOfSensorInstallsSinceAsync(int bundleId, DateTime timestamp, bool withBoothId = false)
     {
         return await this.DbContext.SensorInstalls
         .Where(e =>
             // Any Sensor Installs that references the target Bundle.
             e.BoothNavigation.Bundle == bundleId &&
-            // Any Sensor Installs that have Uninstall Timestamp null or later then the target timestamp.
+            // Any Sensor Installs whose Uninstall Timestamp is null or later then the target timestamp.
             (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
         )
         .Include(e => e.BoothNavigation)
@@ -72,16 +73,18 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
                 sensorUpdate.Ts.CompareTo(sensorInstall.UninstallTs ?? DateTime.UtcNow) < 0
             )
             .Select(sensorUpdate =>
-                new SensorUpdate() 
+                new SensorUpdate()
                 {
-                    Id = sensorInstall.Booth,
+                    // If withBoothId parameter is true, will overwrite the Sensor Update id
+                    // with the id of the Booth from which the update comes from.
+                    Id = withBoothId ? sensorInstall.Booth : sensorUpdate.Id,
                     SensorId = sensorUpdate.SensorId,
                     Ts = sensorUpdate.Ts,
                     Occupied = sensorUpdate.Occupied
                 }
             )
         )
-        // Sort in order of the Sensor Updates timestamps.
+        // Sort in order of the Sensor Update timestamps.
         .OrderBy(sensorUpdate => sensorUpdate.Ts)
         .ToListAsync();
     }
