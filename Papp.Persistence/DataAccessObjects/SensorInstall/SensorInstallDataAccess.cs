@@ -32,4 +32,42 @@ public class SensorInstallDataAccess : GenericDataAccess<SensorInstall>, ISensor
         .Include(e => e.BoothNavigation)
         .ToListAsync();
     }
+
+    /// <inheritdoc/>
+    public SensorInstall? Update(int id, SensorInstall sensorInstall)
+    {
+        var existing = DbContext.SensorInstalls.FirstOrDefault(e => e.Id == id);
+
+        if (existing == null)
+        {
+            return null;
+        }
+
+        existing.InstallTs = sensorInstall.InstallTs;
+        existing.UninstallTs = sensorInstall.UninstallTs;
+        existing.InstallImage = sensorInstall.InstallImage;
+        existing.Booth = sensorInstall.Booth;
+        existing.SensorId = sensorInstall.SensorId;
+
+        return existing;
+    }
+
+    /// <inheritdoc/>
+    public async Task<SensorInstall?> UpdateAsync(int id, SensorInstall sensorInstall)
+    {
+        var existing = await DbContext.SensorInstalls.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (existing == null)
+        {
+            return null;
+        }
+
+        existing.InstallTs = sensorInstall.InstallTs;
+        existing.UninstallTs = sensorInstall.UninstallTs;
+        existing.InstallImage = sensorInstall.InstallImage;
+        existing.Booth = sensorInstall.Booth;
+        existing.SensorId = sensorInstall.SensorId;
+
+        return existing;
+    }
 }
