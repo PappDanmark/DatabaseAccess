@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -16,5 +17,43 @@ public class ChargerTypeDataAccess : GenericDataAccess<ChargerType>, IChargerTyp
     public ChargerTypeDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
     {
         this.DbContext = unitOfWork.DbContext;
+    }
+
+    /// <inheritdoc/>
+    public ChargerType? Update(int id, ChargerType chargerType)
+    {
+        var existing = DbContext.ChargerTypes.FirstOrDefault(e => e.Id == id);
+
+        if (existing == null)
+        {
+            return null;
+        }
+
+        existing.Operator = chargerType.Operator;
+        existing.Kilowatt = chargerType.Kilowatt;
+        existing.Dc = chargerType.Dc;
+        existing.Name = chargerType.Name;
+        existing.Connector = chargerType.Connector;
+
+        return existing;
+    }
+
+    /// <inheritdoc/>
+    public async Task<ChargerType?> UpdateAsync(int id, ChargerType chargerType)
+    {
+        var existing = await DbContext.ChargerTypes.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (existing == null)
+        {
+            return null;
+        }
+
+        existing.Operator = chargerType.Operator;
+        existing.Kilowatt = chargerType.Kilowatt;
+        existing.Dc = chargerType.Dc;
+        existing.Name = chargerType.Name;
+        existing.Connector = chargerType.Connector;
+
+        return existing;
     }
 }
