@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -28,6 +29,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             .FirstOrDefault();
     }
 
+    /// TODO: Make method async.
     /// <inheritdoc/>
     public IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp)
     {
@@ -38,16 +40,52 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             // Either uninstall TS is null, or uninstall TS is after request TS.
             (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
         )
-        .ToList()
-        .SelectMany(e => {
-            // For each of the appropriate sensor install, query it's sensor updates.
-            DateTime beginTimestamp = e.InstallTs.CompareTo(timestamp) > 0 ? e.InstallTs : timestamp;
-
-            return this.DbContext.SensorUpdates.Where(x =>
+        .AsEnumerable()
+        .SelectMany(e =>
+            this.DbContext.SensorUpdates
+            .Where(x =>
                 x.SensorId == e.SensorId &&
-                x.Ts.CompareTo(beginTimestamp) > 0 &&
+                x.Ts.CompareTo(e.InstallTs) > 0 &&
+                x.Ts.CompareTo(timestamp) > 0 &&
                 x.Ts.CompareTo(e.UninstallTs ?? DateTime.UtcNow) < 0
-            ).AsEnumerable();
-        });
+            )
+        )
+        .ToList();
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<SensorUpdate>> GetAllByBundleIdOfSensorInstallsSinceAsync(int bundleId, DateTime timestamp, bool withBoothId = false)
+    {
+        return await this.DbContext.SensorInstalls
+        .Where(e =>
+            // Any Sensor Installs that references the target Bundle.
+            e.BoothNavigation.Bundle == bundleId &&
+            // Any Sensor Installs whose Uninstall Timestamp is null or later then the target timestamp.
+            (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
+        )
+        .Include(e => e.BoothNavigation)
+        .SelectMany(sensorInstall =>
+            this.DbContext.SensorUpdates
+            .Where(sensorUpdate =>
+                // Retrieves all Sensor Updates of a given Sensor Install.
+                sensorUpdate.SensorId == sensorInstall.SensorId &&
+                sensorUpdate.Ts.CompareTo(sensorInstall.InstallTs) > 0 &&
+                sensorUpdate.Ts.CompareTo(sensorInstall.UninstallTs ?? DateTime.UtcNow) < 0
+            )
+            .Select(sensorUpdate =>
+                new SensorUpdate()
+                {
+                    // If withBoothId parameter is true, will overwrite the Sensor Update id
+                    // with the id of the Booth from which the update comes from.
+                    Id = withBoothId ? sensorInstall.Booth : sensorUpdate.Id,
+                    SensorId = sensorUpdate.SensorId,
+                    Ts = sensorUpdate.Ts,
+                    Occupied = sensorUpdate.Occupied
+                }
+            )
+        )
+        // Sort in order of the Sensor Update timestamps.
+        .OrderBy(sensorUpdate => sensorUpdate.Ts)
+        .ToListAsync();
     }
 }
