@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -14,44 +13,12 @@ public class ImageDataAccess : GenericDataAccess<Image>, IImageDataAccess
         this.DbContext = context;
     }
 
-    public ImageDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
-    {
-        this.DbContext = unitOfWork.DbContext;
-    }
-
     /// <inheritdoc/>
-    public Image? Update(int id, Image image)
+    private protected override void UpdateEntityFields(Image src, Image dst)
     {
-        var existing = DbContext.Images.FirstOrDefault(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Name = image.Name;
-        existing.CompressionType = image.CompressionType;
-        existing.MimeType = image.MimeType;
-        existing.Data = image.Data;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<Image?> UpdateAsync(int id, Image image)
-    {
-        var existing = await DbContext.Images.FirstOrDefaultAsync(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Name = image.Name;
-        existing.CompressionType = image.CompressionType;
-        existing.MimeType = image.MimeType;
-        existing.Data = image.Data;
-
-        return existing;
+        dst.Name = src.Name;
+        dst.CompressionType = src.CompressionType;
+        dst.MimeType = src.MimeType;
+        dst.Data = src.Data;
     }
 }

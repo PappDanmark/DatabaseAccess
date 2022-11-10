@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Papp.Persistence.DataAccess;
 
-public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEntity : class
+public abstract class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEntity : class
 {
     private readonly DbContext DbContext;
     private readonly DbSet<TEntity> DbSet;
@@ -14,10 +14,6 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     {
         this.DbContext = context;
         this.DbSet = context.Set<TEntity>();
-    }
-
-    public GenericDataAccess(IUnitOfWork<DbContext> unitOfWork) : this(unitOfWork.DbContext)
-    {
     }
 
     #region Read
@@ -210,6 +206,40 @@ public class GenericDataAccess<TEntity> : IGenericDataAccess<TEntity> where TEnt
     public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
     {
         await this.DbSet.AddRangeAsync(entities);
+    }
+
+    #endregion
+
+    #region Update
+
+    /// <summary>
+    /// Defines the logic for updating the fields of an <see cref="TEntity"/> in the database.
+    /// </summary>
+    /// <param name="src">The <see cref="TEntity"/> from which to copy the fields.</param>
+    /// <param name="dst">The <see cref="TEntity"/> whose fields to overwrite.</param>
+    /// <remarks>Implementation is specific to every data access object.</remarks>
+    private protected abstract void UpdateEntityFields(TEntity src, TEntity dst);
+
+    /// <inheritdoc/>
+    public virtual void Update(Expression<Func<TEntity, bool>> predicate, TEntity entity)
+    {
+        var existing = this.DbSet.FirstOrDefault(predicate);
+        if (existing == null)
+        {
+            return;
+        }
+        UpdateEntityFields(entity, existing);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task UpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity)
+    {
+        var existing = await this.DbSet.FirstOrDefaultAsync(predicate);
+        if (existing == null)
+        {
+            return;
+        }
+        UpdateEntityFields(entity, existing);
     }
 
     #endregion

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -14,52 +13,16 @@ public class SensorDataAccess : GenericDataAccess<Sensor>, ISensorDataAccess
         this.DbContext = context;
     }
 
-    public SensorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
-    {
-        this.DbContext = unitOfWork.DbContext;
-    }
-
     /// <inheritdoc/>
-    public Sensor? Update(string id, Sensor sensor)
+    private protected override void UpdateEntityFields(Sensor src, Sensor dst)
     {
-        var existing = DbContext.Sensors.FirstOrDefault(e => e.SensorId == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.InstallationTimestamp = sensor.InstallationTimestamp;
-        existing.Battery = sensor.Battery;
-        existing.Occupied = sensor.Occupied;
-        existing.LastUpdatedBySensorAction = sensor.LastUpdatedBySensorAction;
-        existing.LastUpdatedTimestamp = sensor.LastUpdatedTimestamp;
-        existing.InstalledAtParkingBoothId = sensor.InstalledAtParkingBoothId;
-        existing.InstallationDateTimeEpoch = sensor.InstallationDateTimeEpoch;
-        existing.SensorTypeId = sensor.SensorTypeId;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<Sensor?> UpdateAsync(string id, Sensor sensor)
-    {
-        var existing = await DbContext.Sensors.FirstOrDefaultAsync(e => e.SensorId == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.InstallationTimestamp = sensor.InstallationTimestamp;
-        existing.Battery = sensor.Battery;
-        existing.Occupied = sensor.Occupied;
-        existing.LastUpdatedBySensorAction = sensor.LastUpdatedBySensorAction;
-        existing.LastUpdatedTimestamp = sensor.LastUpdatedTimestamp;
-        existing.InstalledAtParkingBoothId = sensor.InstalledAtParkingBoothId;
-        existing.InstallationDateTimeEpoch = sensor.InstallationDateTimeEpoch;
-        existing.SensorTypeId = sensor.SensorTypeId;
-
-        return existing;
+        dst.InstallationTimestamp = src.InstallationTimestamp;
+        dst.Battery = src.Battery;
+        dst.Occupied = src.Occupied;
+        dst.LastUpdatedBySensorAction = src.LastUpdatedBySensorAction;
+        dst.LastUpdatedTimestamp = src.LastUpdatedTimestamp;
+        dst.InstalledAtParkingBoothId = src.InstalledAtParkingBoothId;
+        dst.InstallationDateTimeEpoch = src.InstallationDateTimeEpoch;
+        dst.SensorTypeId = src.SensorTypeId;
     }
 }

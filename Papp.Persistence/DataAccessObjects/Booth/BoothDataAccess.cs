@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -14,52 +13,16 @@ public class BoothDataAccess : GenericDataAccess<Booth>, IBoothDataAccess
         this.DbContext = context;
     }
 
-    public BoothDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
-    {
-        this.DbContext = unitOfWork.DbContext;
-    }
-
     /// <inheritdoc/>
-    public Booth? Update(Guid id, Booth booth)
+    private protected override void UpdateEntityFields(Booth src, Booth dst)
     {
-        var existing = DbContext.Booths.FirstOrDefault(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.BoothNumber = booth.BoothNumber;
-        existing.MuncipalityId = booth.MuncipalityId;
-        existing.HandicapOh = booth.HandicapOh;
-        existing.ElectricExclusiveOh = booth.ElectricExclusiveOh;
-        existing.CraftsmenExclusiveOh = booth.CraftsmenExclusiveOh;
-        existing.Charger = booth.Charger;
-        existing.Bundle = booth.Bundle;
-        existing.SensorInstall = booth.SensorInstall;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<Booth?> UpdateAsync(Guid id, Booth booth)
-    {
-        var existing = await DbContext.Booths.FirstOrDefaultAsync(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.BoothNumber = booth.BoothNumber;
-        existing.MuncipalityId = booth.MuncipalityId;
-        existing.HandicapOh = booth.HandicapOh;
-        existing.ElectricExclusiveOh = booth.ElectricExclusiveOh;
-        existing.CraftsmenExclusiveOh = booth.CraftsmenExclusiveOh;
-        existing.Charger = booth.Charger;
-        existing.Bundle = booth.Bundle;
-        existing.SensorInstall = booth.SensorInstall;
-
-        return existing;
+        dst.BoothNumber = src.BoothNumber;
+        dst.MuncipalityId = src.MuncipalityId;
+        dst.HandicapOh = src.HandicapOh;
+        dst.ElectricExclusiveOh = src.ElectricExclusiveOh; 
+        dst.CraftsmenExclusiveOh = src.CraftsmenExclusiveOh;
+        dst.Charger = src.Charger;
+        dst.Bundle = src.Bundle;
+        dst.SensorInstall = src.SensorInstall;
     }
 }

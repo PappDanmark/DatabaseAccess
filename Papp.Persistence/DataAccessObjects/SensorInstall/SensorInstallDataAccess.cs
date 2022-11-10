@@ -14,9 +14,14 @@ public class SensorInstallDataAccess : GenericDataAccess<SensorInstall>, ISensor
         this.DbContext = context;
     }
 
-    public SensorInstallDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(SensorInstall src, SensorInstall dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.InstallTs = src.InstallTs;
+        dst.UninstallTs = src.UninstallTs;
+        dst.InstallImage = src.InstallImage;
+        dst.Booth = src.Booth;
+        dst.SensorId = src.SensorId;
     }
 
     /// <inheritdoc/>
@@ -31,43 +36,5 @@ public class SensorInstallDataAccess : GenericDataAccess<SensorInstall>, ISensor
         )
         .Include(e => e.BoothNavigation)
         .ToListAsync();
-    }
-
-    /// <inheritdoc/>
-    public SensorInstall? Update(int id, SensorInstall sensorInstall)
-    {
-        var existing = DbContext.SensorInstalls.FirstOrDefault(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.InstallTs = sensorInstall.InstallTs;
-        existing.UninstallTs = sensorInstall.UninstallTs;
-        existing.InstallImage = sensorInstall.InstallImage;
-        existing.Booth = sensorInstall.Booth;
-        existing.SensorId = sensorInstall.SensorId;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<SensorInstall?> UpdateAsync(int id, SensorInstall sensorInstall)
-    {
-        var existing = await DbContext.SensorInstalls.FirstOrDefaultAsync(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.InstallTs = sensorInstall.InstallTs;
-        existing.UninstallTs = sensorInstall.UninstallTs;
-        existing.InstallImage = sensorInstall.InstallImage;
-        existing.Booth = sensorInstall.Booth;
-        existing.SensorId = sensorInstall.SensorId;
-
-        return existing;
     }
 }

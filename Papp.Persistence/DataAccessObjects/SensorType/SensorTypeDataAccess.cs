@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -14,40 +13,10 @@ public class SensorTypeDataAccess : GenericDataAccess<SensorType>, ISensorTypeDa
         this.DbContext = context;
     }
 
-    public SensorTypeDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
-    {
-        this.DbContext = unitOfWork.DbContext;
-    }
-
     /// <inheritdoc/>
-    public SensorType? Update(Guid id, SensorType sensorType)
+    private protected override void UpdateEntityFields(SensorType src, SensorType dst)
     {
-        var existing = DbContext.SensorTypes.FirstOrDefault(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Model = sensorType.Model;
-        existing.Manufacturer = sensorType.Manufacturer;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<SensorType?> UpdateAsync(Guid id, SensorType sensorType)
-    {
-        var existing = await DbContext.SensorTypes.FirstOrDefaultAsync(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Model = sensorType.Model;
-        existing.Manufacturer = sensorType.Manufacturer;
-
-        return existing;
+        dst.Model = src.Model;
+        dst.Manufacturer = src.Manufacturer;
     }
 }

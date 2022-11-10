@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Papp.Domain;
 using Papp.Persistence.Context;
 
@@ -14,38 +13,9 @@ public class ChargerConnectorDataAccess : GenericDataAccess<ChargerConnector>, I
         this.DbContext = context;
     }
 
-    public ChargerConnectorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
-    {
-        this.DbContext = unitOfWork.DbContext;
-    }
-
     /// <inheritdoc/>
-    public ChargerConnector? Update(short id, ChargerConnector chargerConnector)
+    private protected override void UpdateEntityFields(ChargerConnector src, ChargerConnector dst)
     {
-        var existing = DbContext.ChargerConnectors.FirstOrDefault(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Name = chargerConnector.Name;
-
-        return existing;
-    }
-
-    /// <inheritdoc/>
-    public async Task<ChargerConnector?> UpdateAsync(short id, ChargerConnector chargerConnector)
-    {
-        var existing = await DbContext.ChargerConnectors.FirstOrDefaultAsync(e => e.Id == id);
-
-        if (existing == null)
-        {
-            return null;
-        }
-
-        existing.Name = chargerConnector.Name;
-
-        return existing;
+        dst.Name = src.Name;
     }
 }

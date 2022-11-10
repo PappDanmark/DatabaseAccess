@@ -13,9 +13,12 @@ public class ParkingAreaTransactionDataAccess : GenericDataAccess<ParkingAreaTra
         this.DbContext = context;
     }
 
-    public ParkingAreaTransactionDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(ParkingAreaTransaction src, ParkingAreaTransaction dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.OccupiedSpaces  = src.OccupiedSpaces;
+        dst.ParkingAreaId = src.ParkingAreaId;
+        dst.Timestamp = src.Timestamp;
     }
 
     /// <inheritdoc/>

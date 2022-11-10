@@ -14,9 +14,12 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
         this.DbContext = context;
     }
 
-    public SensorUpdateDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(SensorUpdate src, SensorUpdate dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.SensorId = src.SensorId;
+        dst.Ts = src.Ts;
+        dst.Occupied = src.Occupied;
     }
 
     /// <inheritdoc/>
