@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Papp.Persistence.Tests;
 
-public class GenericDataAccessDataSource
+public class BoothDataAccessDataSource
 {
     // Defines the data to be tested for GetFirstOrDefault method.
     // First argument is the expected, the rest correspond to the test subject's arguments.
