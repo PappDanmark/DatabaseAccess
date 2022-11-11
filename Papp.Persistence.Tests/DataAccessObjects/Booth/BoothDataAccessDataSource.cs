@@ -37,6 +37,26 @@ public class BoothDataAccessDataSource
         { Array.Empty<Booth>(), e => e.BoothNumber.Equals(-3), null, null, false }
     };
 
+    public static TheoryData<Booth, Expression<Func<Booth, bool>>> Update => new()
+    {
+        {
+            new() {
+                Id = new("029d6427-adf2-4746-a33f-cfc60a51e4e2"),
+                BoothNumber = 99,
+                MuncipalityId = "m2"
+            },
+            e => e.Id.ToString() == "029d6427-adf2-4746-a33f-cfc60a51e4e2"
+        },
+        {
+            new() {
+                Id = new("cab12fe3-a366-4602-bafa-8a92a9cc53f9"),
+                BoothNumber = 99,
+                MuncipalityId = "m5"
+            },
+            e => e.Id.ToString() == "cab12fe3-a366-4602-bafa-8a92a9cc53f9"
+        },
+    };
+
     public static TheoryData<bool, Expression<Func<Booth, bool>>?> Exists => new()
     {
         { true, null },

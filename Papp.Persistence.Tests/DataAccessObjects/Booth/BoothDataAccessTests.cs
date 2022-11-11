@@ -50,7 +50,7 @@ public class BoothDataAccessTests
         else
         {
             Assert.NotNull(entity);
-            Assert.Equal(expected, entity);
+            Assert.Equivalent(expected, entity);
         }
     }
 
@@ -75,7 +75,7 @@ public class BoothDataAccessTests
         else
         {
             Assert.NotNull(entity);
-            Assert.Equal(expected, entity);
+            Assert.Equivalent(expected, entity);
         }
     }
 
@@ -98,7 +98,7 @@ public class BoothDataAccessTests
         // proceed to compare each one, making sure the retrieved list is correct.
         for (int i = 0; i < expected.Count(); i++)
         {
-            Assert.Equal(expected.ElementAt(i), list.ElementAt(i));
+            Assert.Equivalent(expected.ElementAt(i), list.ElementAt(i));
         }
     }
 
@@ -121,7 +121,7 @@ public class BoothDataAccessTests
         // proceed to compare each one, making sure the retrieved list is correct.
         for (int i = 0; i < expected.Count; i++)
         {
-            Assert.Equal(expected.ElementAt(i), list.ElementAt(i));
+            Assert.Equivalent(expected.ElementAt(i), list.ElementAt(i));
         }
     }
 
@@ -144,7 +144,7 @@ public class BoothDataAccessTests
         // proceed to compare each one, making sure the retrieved list is correct.
         for (int i = 0; i < expected.Count; i++)
         {
-            Assert.Equal(expected.ElementAt(i), list.ElementAt(i));
+            Assert.Equivalent(expected.ElementAt(i), list.ElementAt(i));
         }
     }
 
@@ -190,6 +190,35 @@ public class BoothDataAccessTests
 
         // Verify
         this.mockDbSet.Verify(c => c.AddRangeAsync(It.IsAny<IEnumerable<Booth>>(), default), Times.Once);
+    }
+
+    #endregion
+
+    // All tests related to Create methods:
+    #region Update
+
+    [Theory]
+    [MemberData(nameof(BoothDataAccessDataSource.Update), MemberType = typeof(BoothDataAccessDataSource))]
+    public void Update(Booth expected, Expression<Func<Booth, bool>> predicate)
+    {
+        // Act
+        this.sut.Update(predicate, expected);
+
+        // Assert
+        var actual = this.mockDbSet.Object.FirstOrDefault(predicate);
+        Assert.Equivalent(expected, actual);
+    }
+
+    [Theory]
+    [MemberData(nameof(BoothDataAccessDataSource.Update), MemberType = typeof(BoothDataAccessDataSource))]
+    public async Task UpdateAsync(Booth expected, Expression<Func<Booth, bool>> predicate)
+    {
+        // Act
+        await this.sut.UpdateAsync(predicate, expected);
+
+        // Assert
+        var actual = await this.mockDbSet.Object.FirstOrDefaultAsync(predicate);
+        Assert.Equivalent(expected, actual);
     }
 
     #endregion
