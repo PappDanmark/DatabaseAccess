@@ -19,7 +19,7 @@ public interface ISensorUpdateDataAccess : IGenericDataAccess<SensorUpdate>
     /// <param name="boothId">The id of the Booth from which to get the updates.</param>
     /// <param name="timestamp">The point of time since when to retrieve the updates.</param>
     /// <returns>A list of mathching Sensor Updates.</returns>
-    IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp);
+    Task<IEnumerable<SensorUpdate>> GetAllByBoothIdSinceAsync(Guid boothId, DateTime timestamp);
 
     /// <summary>
     /// Retrieves all Sensor Updates of all Sensor Installs, of a given Bundle id, since the provided timestamp. 

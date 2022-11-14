@@ -13,8 +13,18 @@ public class ParkingAreaDataAccess : GenericDataAccess<ParkingArea>, IParkingAre
         this.DbContext = context;
     }
 
-    public ParkingAreaDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(ParkingArea src, ParkingArea dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.TotalSpaces = src.TotalSpaces;
+        dst.Coordinates = src.Coordinates;
+        dst.ZipCodeId = src.ZipCodeId;
+        dst.SensorTypeId = src.SensorTypeId;
+        dst.PappId = src.PappId;
+        dst.CoordinatesEntry = src.CoordinatesEntry;
+        dst.Street = src.Street;
+        dst.Name = src.Name;
+        dst.LatestOccupiedSpaces = src.LatestOccupiedSpaces;
+        dst.LatestOccupiedTimestamp = src.LatestOccupiedTimestamp;
     }
 }

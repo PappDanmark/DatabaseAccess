@@ -13,8 +13,14 @@ public class CountryDataAccess : GenericDataAccess<Country>, ICountryDataAccess
         this.DbContext = context;
     }
 
-    public CountryDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Country src, Country dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.CommonName = src.CommonName;
+        dst.OfficialName = src.OfficialName;
+        dst.Iso3166Alpha2 = src.Iso3166Alpha2;
+        dst.Iso3166Alpha3 = src.Iso3166Alpha3;
+        dst.Population = src.Population;
+        dst.AreaKm2 = src.AreaKm2;
     }
 }

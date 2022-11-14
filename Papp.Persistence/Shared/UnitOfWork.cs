@@ -4,11 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Papp.Persistence.DataAccess;
 
-public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
+public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
 {
-    /// <inheritdoc/>
-    public TContext DbContext { get; }
-
+    private TContext DbContext { get; }
     private bool Disposed;
     private IDictionary<string, object> DataAccessObjects { get; }
     private IDbContextTransaction? Transaction;
@@ -144,17 +142,6 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbCon
             this.Logger.LogError("[UnitOfWork]: Error in {0}.", e);
             return -1;
         }
-    }
-
-    /// <inheritdoc/>
-    public IGenericDataAccess<TEntity> GenericDataAccessObject<TEntity>() where TEntity : class
-    {
-        var key = typeof(TEntity).Name;
-        if (!this.DataAccessObjects.ContainsKey(key))
-        {
-            this.DataAccessObjects.Add(key, new GenericDataAccess<TEntity>(this.DbContext));
-        }
-        return (IGenericDataAccess<TEntity>) this.DataAccessObjects[key];
     }
 
     /// <inheritdoc/>

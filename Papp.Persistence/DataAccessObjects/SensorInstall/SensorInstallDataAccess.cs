@@ -14,9 +14,14 @@ public class SensorInstallDataAccess : GenericDataAccess<SensorInstall>, ISensor
         this.DbContext = context;
     }
 
-    public SensorInstallDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(SensorInstall src, SensorInstall dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.InstallTs = src.InstallTs;
+        dst.UninstallTs = src.UninstallTs;
+        dst.InstallImage = src.InstallImage;
+        dst.Booth = src.Booth;
+        dst.SensorId = src.SensorId;
     }
 
     /// <inheritdoc/>

@@ -13,8 +13,16 @@ public class SensorDataAccess : GenericDataAccess<Sensor>, ISensorDataAccess
         this.DbContext = context;
     }
 
-    public SensorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Sensor src, Sensor dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.InstallationTimestamp = src.InstallationTimestamp;
+        dst.Battery = src.Battery;
+        dst.Occupied = src.Occupied;
+        dst.LastUpdatedBySensorAction = src.LastUpdatedBySensorAction;
+        dst.LastUpdatedTimestamp = src.LastUpdatedTimestamp;
+        dst.InstalledAtParkingBoothId = src.InstalledAtParkingBoothId;
+        dst.InstallationDateTimeEpoch = src.InstallationDateTimeEpoch;
+        dst.SensorTypeId = src.SensorTypeId;
     }
 }

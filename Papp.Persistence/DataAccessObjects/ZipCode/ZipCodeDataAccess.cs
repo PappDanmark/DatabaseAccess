@@ -13,8 +13,11 @@ public class ZipCodeDataAccess : GenericDataAccess<ZipCode>, IZipCodeDataAccess
         this.DbContext = context;
     }
 
-    public ZipCodeDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(ZipCode src, ZipCode dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Code = src.Code;
+        dst.Name = src.Name;
+        dst.CountryId = src.CountryId;
     }
 }

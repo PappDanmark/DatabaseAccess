@@ -13,8 +13,11 @@ public class SensorBatteryUpdateDataAccess : GenericDataAccess<SensorBatteryUpda
         this.DbContext = context;
     }
 
-    public SensorBatteryUpdateDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(SensorBatteryUpdate src, SensorBatteryUpdate dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.SensorId = src.SensorId;
+        dst.Ts = src.Ts;
+        dst.Battery = src.Battery;
     }
 }

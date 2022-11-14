@@ -13,8 +13,9 @@ public class ManufacturerDataAccess : GenericDataAccess<Manufacturer>, IManufact
         this.DbContext = context;
     }
 
-    public ManufacturerDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Manufacturer src, Manufacturer dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Name = src.Name;
     }
 }

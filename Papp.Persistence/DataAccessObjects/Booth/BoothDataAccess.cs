@@ -13,8 +13,16 @@ public class BoothDataAccess : GenericDataAccess<Booth>, IBoothDataAccess
         this.DbContext = context;
     }
 
-    public BoothDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Booth src, Booth dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.BoothNumber = src.BoothNumber;
+        dst.MuncipalityId = src.MuncipalityId;
+        dst.HandicapOh = src.HandicapOh;
+        dst.ElectricExclusiveOh = src.ElectricExclusiveOh; 
+        dst.CraftsmenExclusiveOh = src.CraftsmenExclusiveOh;
+        dst.Charger = src.Charger;
+        dst.Bundle = src.Bundle;
+        dst.SensorInstall = src.SensorInstall;
     }
 }
