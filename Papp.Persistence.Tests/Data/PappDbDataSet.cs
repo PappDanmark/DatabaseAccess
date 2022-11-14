@@ -4,8 +4,7 @@ namespace Papp.Persistence.Tests.Data;
 
 public static class PappDbDataSet
 {
-
-    public static Booth[] Booths = new Booth[] {
+    public static Booth[] Booths => new Booth[] {
         new() {
             Id = new("dcd6a274-b7fb-41aa-b099-020296b70e5a"),
             BoothNumber = 1,
@@ -22,7 +21,4 @@ public static class PappDbDataSet
             MuncipalityId = "m3"
         }
     };
-
-
-
 }

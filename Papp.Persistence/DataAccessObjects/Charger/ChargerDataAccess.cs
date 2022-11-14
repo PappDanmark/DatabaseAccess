@@ -13,8 +13,10 @@ public class ChargerDataAccess : GenericDataAccess<Charger>, IChargerDataAccess
         this.DbContext = context;
     }
 
-    public ChargerDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Charger src, Charger dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.OperatorId = src.OperatorId;
+        dst.ChargerType = src.ChargerType;
     }
 }

@@ -13,8 +13,12 @@ public class ImageDataAccess : GenericDataAccess<Image>, IImageDataAccess
         this.DbContext = context;
     }
 
-    public ImageDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Image src, Image dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Name = src.Name;
+        dst.CompressionType = src.CompressionType;
+        dst.MimeType = src.MimeType;
+        dst.Data = src.Data;
     }
 }

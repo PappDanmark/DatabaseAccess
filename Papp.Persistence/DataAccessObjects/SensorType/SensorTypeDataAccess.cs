@@ -13,8 +13,10 @@ public class SensorTypeDataAccess : GenericDataAccess<SensorType>, ISensorTypeDa
         this.DbContext = context;
     }
 
-    public SensorTypeDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(SensorType src, SensorType dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Model = src.Model;
+        dst.Manufacturer = src.Manufacturer;
     }
 }

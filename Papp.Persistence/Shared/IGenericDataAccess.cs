@@ -238,6 +238,25 @@ public interface IGenericDataAccess<TEntity> where TEntity : class
 
     #endregion
 
+    // All methods related to Update database operations:
+    #region Update
+
+    /// <summary>
+    /// Updates the first <see cref="TEntity"/> in the database that matches the predicate.
+    /// </summary>
+    /// <param name="predicate">Predicate expression based on which to look for the <see cref="TEntity"/> to update.</param>
+    /// <param name="entity">The <see cref="TEntity"/> containing the new information that needs to be overwritten.</param>
+    void Update(Expression<Func<TEntity, bool>> predicate, TEntity entity);
+
+    /// <summary>
+    /// Updates asynchronously the first <see cref="TEntity"/> in the database that matches the predicate.
+    /// </summary>
+    /// <param name="predicate">Predicate expression based on which to look for the <see cref="TEntity"/> to update.</param>
+    /// <param name="entity">The <see cref="TEntity"/> containing the new information that needs to be overwritten.</param>
+    Task UpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity);
+
+    #endregion
+
     // Other methods related to miscellaneous database operations:
     #region Other
 

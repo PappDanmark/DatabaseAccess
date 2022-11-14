@@ -13,8 +13,11 @@ public class BundleDataAccess : GenericDataAccess<Bundle>, IBundleDataAccess
         this.DbContext = context;
     }
 
-    public BundleDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Bundle src, Bundle dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Location = src.Location;
+        dst.Address = src.Address;
+        dst.Zip = src.Zip;
     }
 }

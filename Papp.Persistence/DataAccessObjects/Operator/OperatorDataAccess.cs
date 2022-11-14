@@ -13,8 +13,9 @@ public class OperatorDataAccess : GenericDataAccess<Operator>, IOperatorDataAcce
         this.DbContext = context;
     }
 
-    public OperatorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(Operator src, Operator dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Name = src.Name;
     }
 }

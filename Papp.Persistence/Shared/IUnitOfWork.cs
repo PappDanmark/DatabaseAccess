@@ -5,14 +5,8 @@ namespace Papp.Persistence.DataAccess;
 /// <summary>
 /// Defines the interface for any UnitOfWork implementations.
 /// </summary>
-public interface IUnitOfWork<out TContext> : IDataAccessFactory, IDisposable, IAsyncDisposable where TContext : DbContext
+public interface IUnitOfWork<out TContext> : IDisposable, IAsyncDisposable where TContext : DbContext
 {
-    /// <summary>
-    /// Gets the database context.
-    /// </summary>
-    /// <returns>The instance of type <typeparamref name="TContext"/>.</returns>
-    TContext DbContext { get; }
-
     /// <summary>
     /// Starts a database transaction.
     /// </summary>

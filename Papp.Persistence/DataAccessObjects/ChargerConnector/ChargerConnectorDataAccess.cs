@@ -13,8 +13,9 @@ public class ChargerConnectorDataAccess : GenericDataAccess<ChargerConnector>, I
         this.DbContext = context;
     }
 
-    public ChargerConnectorDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(ChargerConnector src, ChargerConnector dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.Name = src.Name;
     }
 }

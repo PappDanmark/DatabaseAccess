@@ -13,8 +13,10 @@ public class ParkingBoothDataAccess : GenericDataAccess<ParkingBooth>, IParkingB
         this.DbContext = context;
     }
 
-    public ParkingBoothDataAccess(IUnitOfWork<PappDbContext> unitOfWork): base(unitOfWork)
+    /// <inheritdoc/>
+    private protected override void UpdateEntityFields(ParkingBooth src, ParkingBooth dst)
     {
-        this.DbContext = unitOfWork.DbContext;
+        dst.BoothNumber = src.BoothNumber;
+        dst.PoiId = src.PoiId;
     }
 }
