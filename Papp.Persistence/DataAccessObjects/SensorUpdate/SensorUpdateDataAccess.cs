@@ -32,18 +32,16 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
             .FirstOrDefault();
     }
 
-    /// TODO: Make method async.
     /// <inheritdoc/>
-    public IEnumerable<SensorUpdate> GetAllByBoothIdSince(Guid boothId, DateTime timestamp)
+    public async Task<IEnumerable<SensorUpdate>> GetAllByBoothIdSinceAsync(Guid boothId, DateTime timestamp)
     {
-        return this.DbContext.SensorInstalls
+        return await this.DbContext.SensorInstalls
         .Where(e =>
             // BoothIds have to match.
             e.Booth == boothId &&
             // Either uninstall TS is null, or uninstall TS is after request TS.
             (e.UninstallTs == null || e.UninstallTs.Value.CompareTo(timestamp) > 0)
         )
-        .AsEnumerable()
         .SelectMany(e =>
             this.DbContext.SensorUpdates
             .Where(x =>
@@ -53,7 +51,7 @@ public class SensorUpdateDataAccess : GenericDataAccess<SensorUpdate>, ISensorUp
                 x.Ts.CompareTo(e.UninstallTs ?? DateTime.UtcNow) < 0
             )
         )
-        .ToList();
+        .ToListAsync();
     }
 
     /// <inheritdoc/>
