@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Papp.Domain
 {
-    public partial class Sensor
+    public partial class LegacySensor
     {
-        public Sensor()
+        public LegacySensor()
         {
             SensorActionOccupieds = new HashSet<SensorActionOccupied>();
         }

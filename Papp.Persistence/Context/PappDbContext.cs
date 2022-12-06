@@ -12,8 +12,7 @@ namespace Papp.Persistence.Context
         {
         }
 
-        public PappDbContext(DbContextOptions<PappDbContext> options)
-            : base(options)
+        public PappDbContext(DbContextOptions<PappDbContext> options) : base(options)
         {
         }
 
@@ -30,7 +29,7 @@ namespace Papp.Persistence.Context
         public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; }
         public virtual DbSet<ParkingBooth> ParkingBooths { get; set; }
         public virtual DbSet<ParkingBundle> ParkingBundles { get; set; }
-        public virtual DbSet<Sensor> Sensors { get; set; }
+        public virtual DbSet<LegacySensor> LegacySensors { get; set; }
         public virtual DbSet<Sensor1> Sensors1 { get; set; }
         public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; }
         public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; }
@@ -468,7 +467,7 @@ namespace Papp.Persistence.Context
                     .HasConstraintName("parking_bundle_zip_code_id_fk");
             });
 
-            modelBuilder.Entity<Sensor>(entity =>
+            modelBuilder.Entity<LegacySensor>(entity =>
             {
                 entity.ToTable("sensors");
 
@@ -495,18 +494,18 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.SensorTypeId).HasColumnName("sensor_type_id");
 
                 entity.HasOne(d => d.InstalledAtParkingBooth)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.InstalledAtParkingBoothId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("sensors_installed_at_parking_booth_id");
 
                 entity.HasOne(d => d.LastUpdatedBySensorActionNavigation)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.LastUpdatedBySensorAction)
                     .HasConstraintName("sensors_last_updated_by_sensor_action_fkey");
 
                 entity.HasOne(d => d.SensorType)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.SensorTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Sensor Type ID");
@@ -571,7 +570,7 @@ namespace Papp.Persistence.Context
                     .IsRequired()
                     .HasColumnName("sensor_id");
 
-                entity.HasOne(d => d.Sensor)
+                entity.HasOne(d => d.LegacySensor)
                     .WithMany(p => p.SensorActionOccupieds)
                     .HasForeignKey(d => d.SensorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
