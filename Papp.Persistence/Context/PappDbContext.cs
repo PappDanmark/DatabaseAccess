@@ -30,7 +30,7 @@ namespace Papp.Persistence.Context
         public virtual DbSet<ParkingBooth> ParkingBooths { get; set; }
         public virtual DbSet<ParkingBundle> ParkingBundles { get; set; }
         public virtual DbSet<LegacySensor> LegacySensors { get; set; }
-        public virtual DbSet<Sensor1> Sensors1 { get; set; }
+        public virtual DbSet<Sensor> Sensors { get; set; }
         public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; }
         public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; }
         public virtual DbSet<SensorBatteryUpdate> SensorBatteryUpdates { get; set; }
@@ -511,7 +511,7 @@ namespace Papp.Persistence.Context
                     .HasConstraintName("Sensor Type ID");
             });
 
-            modelBuilder.Entity<Sensor1>(entity =>
+            modelBuilder.Entity<Sensor>(entity =>
             {
                 entity.ToTable("sensor");
 
@@ -543,7 +543,7 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.Type).HasColumnName("type");
 
                 entity.HasOne(d => d.TypeNavigation)
-                    .WithMany(p => p.Sensor1s)
+                    .WithMany(p => p.Sensors)
                     .HasForeignKey(d => d.Type)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("type");

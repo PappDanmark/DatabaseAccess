@@ -6,9 +6,9 @@ namespace Papp.Domain
     /// <summary>
     /// Table that contains all sensors.
     /// </summary>
-    public partial class Sensor1
+    public partial class Sensor
     {
-        public Sensor1()
+        public Sensor()
         {
             SensorBatteryUpdates = new HashSet<SensorBatteryUpdate>();
             SensorInstalls = new HashSet<SensorInstall>();
