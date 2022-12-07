@@ -16,28 +16,28 @@ namespace Papp.Persistence.Context
         {
         }
 
-        public virtual DbSet<Booth> Booths { get; set; }
-        public virtual DbSet<Bundle> Bundles { get; set; }
-        public virtual DbSet<Charger> Chargers { get; set; }
-        public virtual DbSet<ChargerConnector> ChargerConnectors { get; set; }
-        public virtual DbSet<ChargerType> ChargerTypes { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        public virtual DbSet<Operator> Operators { get; set; }
-        public virtual DbSet<ParkingArea> ParkingAreas { get; set; }
-        public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; }
-        public virtual DbSet<ParkingBooth> ParkingBooths { get; set; }
-        public virtual DbSet<ParkingBundle> ParkingBundles { get; set; }
-        public virtual DbSet<LegacySensor> LegacySensors { get; set; }
-        public virtual DbSet<Sensor> Sensors { get; set; }
-        public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; }
-        public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; }
-        public virtual DbSet<SensorBatteryUpdate> SensorBatteryUpdates { get; set; }
-        public virtual DbSet<SensorInstall> SensorInstalls { get; set; }
-        public virtual DbSet<SensorType> SensorTypes { get; set; }
-        public virtual DbSet<SensorUpdate> SensorUpdates { get; set; }
-        public virtual DbSet<ZipCode> ZipCodes { get; set; }
+        public virtual DbSet<Booth> Booths { get; set; } = null!;
+        public virtual DbSet<Bundle> Bundles { get; set; } = null!;
+        public virtual DbSet<Charger> Chargers { get; set; } = null!;
+        public virtual DbSet<ChargerConnector> ChargerConnectors { get; set; } = null!;
+        public virtual DbSet<ChargerType> ChargerTypes { get; set; } = null!;
+        public virtual DbSet<Country> Countries { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
+        public virtual DbSet<Operator> Operators { get; set; } = null!;
+        public virtual DbSet<ParkingArea> ParkingAreas { get; set; } = null!;
+        public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; } = null!;
+        public virtual DbSet<ParkingBooth> ParkingBooths { get; set; } = null!;
+        public virtual DbSet<ParkingBundle> ParkingBundles { get; set; } = null!;
+        public virtual DbSet<LegacySensor> LegacySensors { get; set; } = null!;
+        public virtual DbSet<Sensor> Sensors { get; set; } = null!;
+        public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; } = null!;
+        public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; } = null!;
+        public virtual DbSet<SensorBatteryUpdate> SensorBatteryUpdates { get; set; } = null!;
+        public virtual DbSet<SensorInstall> SensorInstalls { get; set; } = null!;
+        public virtual DbSet<SensorType> SensorTypes { get; set; } = null!;
+        public virtual DbSet<SensorUpdate> SensorUpdates { get; set; } = null!;
+        public virtual DbSet<ZipCode> ZipCodes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
