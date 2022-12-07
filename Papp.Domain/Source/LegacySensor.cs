@@ -10,7 +10,7 @@ namespace Papp.Domain
             SensorActionOccupieds = new HashSet<SensorActionOccupied>();
         }
 
-        public string SensorId { get; set; }
+        public string LegacySensorId { get; set; }
         public DateTime InstallationTimestamp { get; set; }
         public short? Battery { get; set; }
         public bool? Occupied { get; set; }
