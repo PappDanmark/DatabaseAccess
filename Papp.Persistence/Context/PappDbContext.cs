@@ -471,7 +471,7 @@ namespace Papp.Persistence.Context
             {
                 entity.ToTable("sensors");
 
-                entity.Property(e => e.SensorId).HasColumnName("sensor_id");
+                entity.Property(e => e.LegacySensorId).HasColumnName("sensor_id");
 
                 entity.Property(e => e.Battery).HasColumnName("battery");
 
