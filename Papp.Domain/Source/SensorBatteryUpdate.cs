@@ -10,6 +10,6 @@ namespace Papp.Domain
         public DateTime Ts { get; set; }
         public short Battery { get; set; }
 
-        public virtual Sensor1 Sensor { get; set; }
+        public virtual Sensor Sensor { get; set; }
     }
 }

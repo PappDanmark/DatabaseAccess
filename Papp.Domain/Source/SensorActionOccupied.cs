@@ -7,7 +7,7 @@ namespace Papp.Domain
     {
         public SensorActionOccupied()
         {
-            Sensors = new HashSet<Sensor>();
+            LegacySensors = new HashSet<LegacySensor>();
         }
 
         public Guid OsaId { get; set; }
@@ -15,7 +15,7 @@ namespace Papp.Domain
         public bool Occupied { get; set; }
         public DateTime ActionTimestamp { get; set; }
 
-        public virtual Sensor Sensor { get; set; }
-        public virtual ICollection<Sensor> Sensors { get; set; }
+        public virtual LegacySensor LegacySensor { get; set; }
+        public virtual ICollection<LegacySensor> LegacySensors { get; set; }
     }
 }

@@ -12,33 +12,32 @@ namespace Papp.Persistence.Context
         {
         }
 
-        public PappDbContext(DbContextOptions<PappDbContext> options)
-            : base(options)
+        public PappDbContext(DbContextOptions<PappDbContext> options) : base(options)
         {
         }
 
-        public virtual DbSet<Booth> Booths { get; set; }
-        public virtual DbSet<Bundle> Bundles { get; set; }
-        public virtual DbSet<Charger> Chargers { get; set; }
-        public virtual DbSet<ChargerConnector> ChargerConnectors { get; set; }
-        public virtual DbSet<ChargerType> ChargerTypes { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        public virtual DbSet<Operator> Operators { get; set; }
-        public virtual DbSet<ParkingArea> ParkingAreas { get; set; }
-        public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; }
-        public virtual DbSet<ParkingBooth> ParkingBooths { get; set; }
-        public virtual DbSet<ParkingBundle> ParkingBundles { get; set; }
-        public virtual DbSet<Sensor> Sensors { get; set; }
-        public virtual DbSet<Sensor1> Sensors1 { get; set; }
-        public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; }
-        public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; }
-        public virtual DbSet<SensorBatteryUpdate> SensorBatteryUpdates { get; set; }
-        public virtual DbSet<SensorInstall> SensorInstalls { get; set; }
-        public virtual DbSet<SensorType> SensorTypes { get; set; }
-        public virtual DbSet<SensorUpdate> SensorUpdates { get; set; }
-        public virtual DbSet<ZipCode> ZipCodes { get; set; }
+        public virtual DbSet<Booth> Booths { get; set; } = null!;
+        public virtual DbSet<Bundle> Bundles { get; set; } = null!;
+        public virtual DbSet<Charger> Chargers { get; set; } = null!;
+        public virtual DbSet<ChargerConnector> ChargerConnectors { get; set; } = null!;
+        public virtual DbSet<ChargerType> ChargerTypes { get; set; } = null!;
+        public virtual DbSet<Country> Countries { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
+        public virtual DbSet<Operator> Operators { get; set; } = null!;
+        public virtual DbSet<ParkingArea> ParkingAreas { get; set; } = null!;
+        public virtual DbSet<ParkingAreaTransaction> ParkingAreaTransactions { get; set; } = null!;
+        public virtual DbSet<ParkingBooth> ParkingBooths { get; set; } = null!;
+        public virtual DbSet<ParkingBundle> ParkingBundles { get; set; } = null!;
+        public virtual DbSet<LegacySensor> LegacySensors { get; set; } = null!;
+        public virtual DbSet<Sensor> Sensors { get; set; } = null!;
+        public virtual DbSet<SensorActionOccupied> SensorActionOccupieds { get; set; } = null!;
+        public virtual DbSet<SensorActionsRaw> SensorActionsRaws { get; set; } = null!;
+        public virtual DbSet<SensorBatteryUpdate> SensorBatteryUpdates { get; set; } = null!;
+        public virtual DbSet<SensorInstall> SensorInstalls { get; set; } = null!;
+        public virtual DbSet<SensorType> SensorTypes { get; set; } = null!;
+        public virtual DbSet<SensorUpdate> SensorUpdates { get; set; } = null!;
+        public virtual DbSet<ZipCode> ZipCodes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -468,7 +467,7 @@ namespace Papp.Persistence.Context
                     .HasConstraintName("parking_bundle_zip_code_id_fk");
             });
 
-            modelBuilder.Entity<Sensor>(entity =>
+            modelBuilder.Entity<LegacySensor>(entity =>
             {
                 entity.ToTable("sensors");
 
@@ -495,24 +494,24 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.SensorTypeId).HasColumnName("sensor_type_id");
 
                 entity.HasOne(d => d.InstalledAtParkingBooth)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.InstalledAtParkingBoothId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("sensors_installed_at_parking_booth_id");
 
                 entity.HasOne(d => d.LastUpdatedBySensorActionNavigation)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.LastUpdatedBySensorAction)
                     .HasConstraintName("sensors_last_updated_by_sensor_action_fkey");
 
                 entity.HasOne(d => d.SensorType)
-                    .WithMany(p => p.Sensors)
+                    .WithMany(p => p.LegacySensors)
                     .HasForeignKey(d => d.SensorTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Sensor Type ID");
             });
 
-            modelBuilder.Entity<Sensor1>(entity =>
+            modelBuilder.Entity<Sensor>(entity =>
             {
                 entity.ToTable("sensor");
 
@@ -544,7 +543,7 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.Type).HasColumnName("type");
 
                 entity.HasOne(d => d.TypeNavigation)
-                    .WithMany(p => p.Sensor1s)
+                    .WithMany(p => p.Sensors)
                     .HasForeignKey(d => d.Type)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("type");
@@ -571,7 +570,7 @@ namespace Papp.Persistence.Context
                     .IsRequired()
                     .HasColumnName("sensor_id");
 
-                entity.HasOne(d => d.Sensor)
+                entity.HasOne(d => d.LegacySensor)
                     .WithMany(p => p.SensorActionOccupieds)
                     .HasForeignKey(d => d.SensorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
