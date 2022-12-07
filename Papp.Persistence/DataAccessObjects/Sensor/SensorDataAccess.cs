@@ -16,13 +16,10 @@ public class SensorDataAccess : GenericDataAccess<Sensor>, ISensorDataAccess
     /// <inheritdoc/>
     private protected override void UpdateEntityFields(Sensor src, Sensor dst)
     {
-        dst.InstallationTimestamp = src.InstallationTimestamp;
-        dst.Battery = src.Battery;
-        dst.Occupied = src.Occupied;
-        dst.LastUpdatedBySensorAction = src.LastUpdatedBySensorAction;
-        dst.LastUpdatedTimestamp = src.LastUpdatedTimestamp;
-        dst.InstalledAtParkingBoothId = src.InstalledAtParkingBoothId;
-        dst.InstallationDateTimeEpoch = src.InstallationDateTimeEpoch;
-        dst.SensorTypeId = src.SensorTypeId;
+        dst.Type = src.Type;
+        dst.LatestOccupied = src.LatestOccupied;
+        dst.LatestOccupiedTimestamp = src.LatestOccupiedTimestamp;
+        dst.LatestBattery = src.LatestBattery;
+        dst.LatestBatteryTimestamp = src.LatestBatteryTimestamp;
     }
 }

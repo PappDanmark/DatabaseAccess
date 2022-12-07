@@ -7,7 +7,7 @@ namespace Papp.Domain
     {
         public ParkingBooth()
         {
-            Sensors = new HashSet<Sensor>();
+            LegacySensors = new HashSet<LegacySensor>();
         }
 
         public Guid ParkingBoothId { get; set; }
@@ -15,6 +15,6 @@ namespace Papp.Domain
         public Guid? PoiId { get; set; }
 
         public virtual ParkingBundle Poi { get; set; }
-        public virtual ICollection<Sensor> Sensors { get; set; }
+        public virtual ICollection<LegacySensor> LegacySensors { get; set; }
     }
 }
