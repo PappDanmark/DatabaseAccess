@@ -19,6 +19,7 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
     private Lazy<ParkingAreaTransactionDataAccess> lazyParkingAreaTransactionDataAccess;
     private Lazy<ParkingBoothDataAccess> lazyParkingBoothDataAccess;
     private Lazy<ParkingBundleDataAccess> lazyParkingBundleDataAccess;
+    private Lazy<LegacySensorDataAccess> lazyLegacySensorDataAccess;
     private Lazy<SensorDataAccess> lazySensorDataAccess;
     private Lazy<SensorActionOccupiedDataAccess> lazySensorActionOccupiedDataAccess;
     private Lazy<SensorActionsRawDataAccess> lazySensorActionsRawDataAccess;
@@ -41,6 +42,7 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
     public IParkingAreaTransactionDataAccess ParkingAreaTransactions => lazyParkingAreaTransactionDataAccess.Value;
     public IParkingBoothDataAccess ParkingBooths => lazyParkingBoothDataAccess.Value;
     public IParkingBundleDataAccess ParkingBundles => lazyParkingBundleDataAccess.Value;
+    public ILegacySensorDataAccess LegacySensors => lazyLegacySensorDataAccess.Value;
     public ISensorDataAccess Sensors => lazySensorDataAccess.Value;
     public ISensorActionOccupiedDataAccess SensorActionOccupieds => lazySensorActionOccupiedDataAccess.Value;
     public ISensorActionsRawDataAccess SensorActionsRaws => lazySensorActionsRawDataAccess.Value;
@@ -65,6 +67,7 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
         lazyParkingAreaTransactionDataAccess = new(() => new(context));
         lazyParkingBoothDataAccess = new(() => new(context));
         lazyParkingBundleDataAccess = new(() => new(context));
+        lazyLegacySensorDataAccess = new(() => new(context));
         lazySensorDataAccess = new(() => new(context));
         lazySensorActionOccupiedDataAccess = new(() => new(context));
         lazySensorActionsRawDataAccess = new(() => new(context));
