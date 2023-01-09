@@ -18,7 +18,10 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
     private Lazy<ParkingAreaDataAccess> lazyParkingAreaDataAccess;
     private Lazy<ParkingAreaTransactionDataAccess> lazyParkingAreaTransactionDataAccess;
     private Lazy<ParkingBoothDataAccess> lazyParkingBoothDataAccess;
+    private Lazy<ParkingBundleDataAccess> lazyParkingBundleDataAccess;
     private Lazy<SensorDataAccess> lazySensorDataAccess;
+    private Lazy<SensorActionOccupiedDataAccess> lazySensorActionOccupiedDataAccess;
+    private Lazy<SensorActionsRawDataAccess> lazySensorActionsRawDataAccess;
     private Lazy<SensorBatteryUpdateDataAccess> lazySensorBatteryUpdateDataAccess;
     private Lazy<SensorInstallDataAccess> lazySensorInstallDataAccess;
     private Lazy<SensorTypeDataAccess> lazySensorTypeDataAccess;
@@ -37,7 +40,10 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
     public IParkingAreaDataAccess ParkingAreas => lazyParkingAreaDataAccess.Value;
     public IParkingAreaTransactionDataAccess ParkingAreaTransactions => lazyParkingAreaTransactionDataAccess.Value;
     public IParkingBoothDataAccess ParkingBooths => lazyParkingBoothDataAccess.Value;
+    public IParkingBundleDataAccess ParkingBundles => lazyParkingBundleDataAccess.Value;
     public ISensorDataAccess Sensors => lazySensorDataAccess.Value;
+    public ISensorActionOccupiedDataAccess SensorActionOccupieds => lazySensorActionOccupiedDataAccess.Value;
+    public ISensorActionsRawDataAccess SensorActionsRaws => lazySensorActionsRawDataAccess.Value;
     public ISensorBatteryUpdateDataAccess SensorBatteryUpdates => lazySensorBatteryUpdateDataAccess.Value;
     public ISensorInstallDataAccess SensorInstalls => lazySensorInstallDataAccess.Value;
     public ISensorTypeDataAccess SensorTypes => lazySensorTypeDataAccess.Value;
@@ -58,7 +64,10 @@ public class PappDbUnitOfWork : UnitOfWork<PappDbContext>, IPappDbUnitOfWork
         lazyParkingAreaDataAccess = new(() => new(context));
         lazyParkingAreaTransactionDataAccess = new(() => new(context));
         lazyParkingBoothDataAccess = new(() => new(context));
+        lazyParkingBundleDataAccess = new(() => new(context));
         lazySensorDataAccess = new(() => new(context));
+        lazySensorActionOccupiedDataAccess = new(() => new(context));
+        lazySensorActionsRawDataAccess = new(() => new(context));
         lazySensorBatteryUpdateDataAccess = new(() => new(context));
         lazySensorInstallDataAccess = new(() => new(context));
         lazySensorTypeDataAccess = new(() => new(context));
