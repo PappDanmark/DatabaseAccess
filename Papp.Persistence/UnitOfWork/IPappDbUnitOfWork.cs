@@ -17,7 +17,11 @@ public interface IPappDbUnitOfWork : IUnitOfWork<PappDbContext>
     IParkingAreaDataAccess ParkingAreas { get; }
     IParkingAreaTransactionDataAccess ParkingAreaTransactions { get; }
     IParkingBoothDataAccess ParkingBooths { get; }
+    IParkingBundleDataAccess ParkingBundles { get; }
+    ILegacySensorDataAccess LegacySensors { get; }
     ISensorDataAccess Sensors { get; }
+    ISensorActionOccupiedDataAccess SensorActionOccupieds { get; }
+    ISensorActionsRawDataAccess SensorActionsRaws { get; }
     ISensorBatteryUpdateDataAccess SensorBatteryUpdates { get; }
     ISensorInstallDataAccess SensorInstalls { get; }
     ISensorTypeDataAccess SensorTypes { get; }
