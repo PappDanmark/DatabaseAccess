@@ -9,6 +9,7 @@ namespace Papp.Domain
         public string SensorId { get; set; }
         public DateTime Ts { get; set; }
         public short Battery { get; set; }
+        public DateTime TsServer { get; set; }
 
         public virtual Sensor Sensor { get; set; }
     }

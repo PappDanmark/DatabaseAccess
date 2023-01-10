@@ -274,7 +274,6 @@ namespace Papp.Persistence.Context
                     .HasComment("e.g. 'zip', 'rar', 'gzip' etc. If null then the bytea is not compressed.");
 
                 entity.Property(e => e.Data)
-                    .IsRequired()
                     .HasColumnName("data")
                     .HasComment("The raw data associated with this image.");
 
@@ -615,6 +614,10 @@ namespace Papp.Persistence.Context
 
                 entity.Property(e => e.Ts).HasColumnName("ts");
 
+                entity.Property(e => e.TsServer)
+                    .HasColumnName("ts_server")
+                    .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)"); 
+
                 entity.HasOne(d => d.Sensor)
                     .WithMany(p => p.SensorBatteryUpdates)
                     .HasForeignKey(d => d.SensorId)
@@ -711,6 +714,10 @@ namespace Papp.Persistence.Context
                 entity.Property(e => e.Occupied).HasColumnName("occupied");
 
                 entity.Property(e => e.Ts).HasColumnName("ts");
+
+                entity.Property(e => e.TsServer)
+                    .HasColumnName("ts_server")
+                    .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
                 entity.HasOne(d => d.Sensor)
                     .WithMany(p => p.SensorUpdates)
